@@ -434,12 +434,12 @@ namespace SkillRings
             else this.expMult = 0.0;
 
             //Handling the gained experience
-            //The experience rings do not multiply incoming experience, but calculate the difference between now and last itteration andadd a portion of the difference
+            //The experience rings do not multiply incoming experience, but calculate the difference between now and last itteration and add a portion of the difference
             for(int index = 0; index < 5; ++index)
             {
                 if(Game1.player.experiencePoints[index] > this.oldExperiencePoints[index])
                 {
-                    Game1.player.gainExperience(index, (int) (this.expMult * Game1.player.experiencePoints[index] - this.oldExperiencePoints[index]));
+                    Game1.player.gainExperience(index, (int) (this.expMult * (Game1.player.experiencePoints[index] - this.oldExperiencePoints[index])));
                     this.oldExperiencePoints[index] = Game1.player.experiencePoints[index];
                 }
             }
