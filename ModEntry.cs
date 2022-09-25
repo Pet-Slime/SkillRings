@@ -3,6 +3,7 @@ using Netcode;
 using SpaceShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using SpaceCore;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Locations;
@@ -23,6 +24,8 @@ namespace SkillRings
         public bool hasSVE = false; //Stardew Valley Expanded
         public bool hasWMR = false; //Wear More Rings
         public bool hasCMR = false; //Combined Many Rings / Balanced Combined Many Rings
+        public bool hasCookingSkill = false; //Cooking Skill
+        public bool hasLuckSkill = false; //Luck Skill
 
         //Fishing Rings
         public string RingLegendaryAnglerName = "Ring of the Legendary Angler";
@@ -79,6 +82,20 @@ namespace SkillRings
         public int addedCombat = 0;
         public int addedCombatNew = 0;
 
+        //Luck Rings
+        public string RingLoadedDieName = "Ring of Loaded Die";
+        public string RingTheGamblerName = "Ring of the Gambler";
+        public string RingBetterOddsName = "Ring of Better Odds";
+        public int RingLoadedDie => this.ja.GetObjectId("Ring of Loaded Die");
+        public int RingTheGambler => this.ja.GetObjectId("Ring of the Gambler");
+        public int RingBetterOdds => this.ja.GetObjectId("Ring of Better Odds");
+        public int addedLuck = 0;
+        public int addedLuckNew = 0;
+
+        //Cooking Skill(Base mods have no additive bonus compatibility)
+        public Skills.Skill cookingSkill;
+        public int oldCookingExperience = 0;
+
         //Experience Rings
         public string RingIneffableKnowledgeName = "Ring of Ineffable Knowledge";
         public string RingKnowledgeName = "Ring of Knowledge";
@@ -88,7 +105,8 @@ namespace SkillRings
         public int RingKnowledge => this.ja.GetObjectId("Ring of Knowledge");
         public int RingInsight => this.ja.GetObjectId("Ring of Insight");
         public double expMult = 0.0;
-        public int[] oldExperiencePoints = new int[5];
+        public int[] oldExperiencePoints = new int[6];
+        
 
         //Runs when the mod gets loaded into the game
         public override void Entry(IModHelper helper)
@@ -226,6 +244,8 @@ namespace SkillRings
             this.addedForagingNew = 0;
             this.addedMining = 0;
             this.addedMiningNew = 0;
+            this.addedLuck = 0;
+            this.addedLuckNew = 0;
             this.expMult = 0.0;
 
             //This is needed so health is properly calculated
@@ -245,12 +265,17 @@ namespace SkillRings
             this.addedCombat = 0;
             this.addedCombatNew = 0;
 
-            //Set the old experience points for each skill, I do not recall which index is which skill
+            //Set the old experience points for each skill, { farming, fishing, foraging, mining, combat, luck }
             this.oldExperiencePoints[0] = Game1.player.experiencePoints[0];
             this.oldExperiencePoints[1] = Game1.player.experiencePoints[1];
             this.oldExperiencePoints[2] = Game1.player.experiencePoints[2];
             this.oldExperiencePoints[3] = Game1.player.experiencePoints[3];
             this.oldExperiencePoints[4] = Game1.player.experiencePoints[4];
+            this.oldExperiencePoints[5] = Game1.player.experiencePoints[5];
+
+            if(this.hasCookingSkill && !(this.cookingSkill is null))
+                this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
+
             this.fixHealth("", new string[0]);
         }
 
@@ -266,11 +291,19 @@ namespace SkillRings
             this.hasSVE = this.Helper.ModRegistry.IsLoaded("FlashShifter.SVECode");
             this.hasWMR = this.Helper.ModRegistry.IsLoaded("bcmpinc.WearMoreRings");
             this.hasCMR = this.Helper.ModRegistry.IsLoaded("Stari.CombineManyRings") || this.Helper.ModRegistry.IsLoaded("Arruda.BalancedCombineManyRings");
+            this.hasLuckSkill = this.Helper.ModRegistry.IsLoaded("spacechase0.LuckSkill");
+            
+            if(this.Helper.ModRegistry.IsLoaded("spacechase0.CookingSkill"))
+            {
+                this.hasCookingSkill = true;
+                this.cookingSkill = Skills.GetSkill("spacechase0.Cooking");
+            }
+            
             if(this.hasWMR)
                 this.moreRings = this.Helper.ModRegistry.GetApi<IMoreRingsApi>("bcmpinc.WearMoreRings");
         }
 
-        //Runs when the game is saved
+        //Runs when the game is saved, this is unique to combat because health changes are permanent
         public void Saving(object sender, SavingEventArgs e)
         {
             if(this.addedCombat == this.cfg.tier3SkillRingBoost)
@@ -292,13 +325,13 @@ namespace SkillRings
             this.addedCombatNew = 0;
         }
 
-        //Runs every game tick, pretty sure I set it to only run the code every second, could be every 10 seconds but I've got my doubts
+        //Runs every game tick, I set it to only run the code every second
         private void onUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
             //Makes sure the code only runs every second
             if(!Context.IsPlayerFree || !e.IsOneSecond)
                 return;
-
+            
             //Fishing skill
             if(this.ringEquipped(this.RingLegendaryAngler, this.RingLegendaryAnglerName))
             {
@@ -387,6 +420,28 @@ namespace SkillRings
                 Game1.player.addedMiningLevel.Value += this.addedMining;
             }
 
+            //Luck skill
+            if(this.ringEquipped(this.RingLoadedDie, this.RingLoadedDieName))
+            {
+                if(this.addedLuck < this.cfg.tier3SkillRingBoost) this.addedLuckNew = this.cfg.tier3SkillRingBoost;
+            }
+            else if(this.ringEquipped(this.RingTheGambler, this.RingTheGamblerName))
+            {
+                if(this.addedLuck < this.cfg.tier2SkillRingBoost) this.addedLuckNew = this.cfg.tier2SkillRingBoost;
+            }
+            else if(this.ringEquipped(this.RingBetterOdds, this.RingBetterOddsName))
+            {
+                if(this.addedLuck == 0) this.addedLuckNew = this.cfg.tier1SkillRingBoost;
+            }
+            else this.addedLuckNew = 0;
+
+            if(this.addedLuckNew != this.addedLuck)
+            {
+                Game1.player.addedLuckLevel.Value -= this.addedLuck;
+                this.addedLuck = this.addedLuckNew;
+                Game1.player.addedLuckLevel.Value += this.addedLuck;
+            }
+
             //Combat skill
             if(this.ringEquipped(this.RingWarGod, this.RingWarGodName))
             {
@@ -435,13 +490,19 @@ namespace SkillRings
 
             //Handling the gained experience
             //The experience rings do not multiply incoming experience, but calculate the difference between now and last itteration and add a portion of the difference
-            for(int index = 0; index < 5; ++index)
+            for(int index = 0; index < 6; ++index)
             {
                 if(Game1.player.experiencePoints[index] > this.oldExperiencePoints[index])
                 {
                     Game1.player.gainExperience(index, (int) (this.expMult * (Game1.player.experiencePoints[index] - this.oldExperiencePoints[index])));
                     this.oldExperiencePoints[index] = Game1.player.experiencePoints[index];
                 }
+            }
+
+            if(this.hasCookingSkill)
+            {
+                Skills.AddExperience(Game1.player, this.cookingSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id) - this.oldCookingExperience)));
+                this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
             }
         }
 
