@@ -128,8 +128,55 @@ namespace SkillRings
             helper.ConsoleCommands.Add("resetmail", "Resets mail so you can obtain it again\n\nUsage: resetmail <ring>\n- ring: DustyRing|GrassyRing|CursedRing|StickyRing|StoneRing|DeepRootsRecipe|GathererRecipe", new Action<string, string[]>(this.resetMail));
             //Fixes the health of the player if it was messed up by the mod
             helper.ConsoleCommands.Add("fixhealth", "Changes max health to what it should be, take off combat rings and don't have combat buffs on\n\nUsage: fixhealth", new Action<string, string[]>(this.fixHealth));
+            //Converts the held broken ring into its fixed tier 3 equivalent
+            helper.ConsoleCommands.Add("fixring", "Fixes the currently held broken ring, converting it to its tier 3 equivalent", new Action<string, string[]>(this.fixRing));
             //Load the config file
             this.cfg = helper.ReadConfig<ModConfig>();
+        }
+
+        //Function to repair a broken tier 3 ring
+        private void fixRing(string command, string[] args)
+        {
+            if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingLegendaryAnglerDusty))
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring(this.RingLegendaryAngler, "legendaryAnglerRing");
+                this.Monitor.Log("Got the Ring of the Legendary Angler.", (LogLevel) 1);
+            } 
+            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingNaturesOracleGrassy))
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring(this.RingNaturesOracle, "naturesOracleRing");
+                this.Monitor.Log("Got the Ring of Nature's Oracle.", (LogLevel) 1);
+            } 
+            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingNaturalBountySticky))
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring(this.RingNaturalBounty, "naturalBountyRing");
+                this.Monitor.Log("Got the Ring of Natural Bounty.", (LogLevel) 1);
+            }
+            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingDwarvenLuckStone))
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring(this.RingDwarvenLuck, "dwarvenLuckRing");
+                this.Monitor.Log("Got the Ring of Dwarven Luck.", (LogLevel) 1);
+            }
+            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingWarGodCursed))
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring(this.RingWarGod, "warGodRing");
+                this.Monitor.Log("Got the Ring of the War God.", (LogLevel) 1);
+            }
+            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingIneffableKnowledgeElusive))
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring(this.RingIneffableKnowledge, "ineffableKnowledgeRing");
+                this.Monitor.Log("Got the Ring of Ineffable Knowledge.", (LogLevel) 1);
+            } 
+            else
+            {
+                this.Monitor.Log("Player not holding a broken ring.", (LogLevel) 1);
+            }
         }
 
         //Function to fix a player's health if it was messed up by a ring
