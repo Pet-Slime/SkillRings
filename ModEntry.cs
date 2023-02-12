@@ -26,6 +26,7 @@ namespace SkillRings
         public bool hasCMR = false; //Combined Many Rings / Balanced Combined Many Rings
         public bool hasCookingSkill = false; //Cooking Skill
         public bool hasLuckSkill = false; //Luck Skill
+        public bool hasBinningSkill = false; //Binning Skill
 
         //Fishing Rings
         public string RingLegendaryAnglerName = "Ring of the Legendary Angler";
@@ -33,8 +34,6 @@ namespace SkillRings
         public string RingApprenticeFisherName = "Ring of the Apprentice Fisher";
         public int RingLegendaryAngler => this.ja.GetObjectId("Ring of the Legendary Angler");
         public int RingLegendaryAnglerDusty => this.ja.GetObjectId("Dusty Ring");
-        public int RingMadMariner => this.ja.GetObjectId("Ring of the Mad Mariner");
-        public int RingApprenticeFisher => this.ja.GetObjectId("Ring of the Apprentice Fisher");
         public int addedFishing = 0;
         public int addedFishingNew = 0;
 
@@ -44,8 +43,6 @@ namespace SkillRings
         public string RingDecentSoilName = "Ring of Decent Soil";
         public int RingNaturesOracle => this.ja.GetObjectId("Ring of Nature's Oracle");
         public int RingNaturesOracleGrassy => this.ja.GetObjectId("Grassy Ring");
-        public int RingGreenThumb => this.ja.GetObjectId("Ring of the Green Thumb");
-        public int RingDecentSoil => this.ja.GetObjectId("Ring of Decent Soil");
         public int addedFarming = 0;
         public int addedFarmingNew = 0;
 
@@ -55,8 +52,6 @@ namespace SkillRings
         public string RingDeepRootsName = "Ring of Deep Roots";
         public int RingNaturalBounty => this.ja.GetObjectId("Ring of Natural Bounty");
         public int RingNaturalBountySticky => this.ja.GetObjectId("Sticky Ring");
-        public int RingGatherer => this.ja.GetObjectId("Ring of the Gatherer");
-        public int RingDeepRoots => this.ja.GetObjectId("Ring of Deep Roots");
         public int addedForaging = 0;
         public int addedForagingNew = 0;
 
@@ -66,8 +61,6 @@ namespace SkillRings
         public string RingWieldyPickName = "Ring of the Wieldy Pick";
         public int RingDwarvenLuck => this.ja.GetObjectId("Ring of Dwarven Luck");
         public int RingDwarvenLuckStone => this.ja.GetObjectId("Stone Ring");
-        public int RingCaves => this.ja.GetObjectId("Ring of the Caves");
-        public int RingWieldyPick => this.ja.GetObjectId("Ring of the Wieldy Pick");
         public int addedMining = 0;
         public int addedMiningNew = 0;
 
@@ -77,8 +70,6 @@ namespace SkillRings
         public string RingSharperBladesName = "Ring of Sharper Blades";
         public int RingWarGod => this.ja.GetObjectId("Ring of the War God");
         public int RingWarGodCursed => this.ja.GetObjectId("Cursed Ring");
-        public int RingPureStrength => this.ja.GetObjectId("Ring of Pure Strength");
-        public int RingSharperBlades => this.ja.GetObjectId("Ring of Sharper Blades");
         public int addedCombat = 0;
         public int addedCombatNew = 0;
 
@@ -87,8 +78,6 @@ namespace SkillRings
         public string RingTheGamblerName = "Ring of the Gambler";
         public string RingBetterOddsName = "Ring of Better Odds";
         public int RingLoadedDie => this.ja.GetObjectId("Ring of Loaded Die");
-        public int RingTheGambler => this.ja.GetObjectId("Ring of the Gambler");
-        public int RingBetterOdds => this.ja.GetObjectId("Ring of Better Odds");
         public int addedLuck = 0;
         public int addedLuckNew = 0;
 
@@ -96,14 +85,16 @@ namespace SkillRings
         public Skills.Skill cookingSkill;
         public int oldCookingExperience = 0;
 
+        //Binning Skill(Base mods have no additive bonus compatibility)
+        public Skills.Skill binningSkill;
+        public int oldBinningExperience = 0;
+
         //Experience Rings
         public string RingIneffableKnowledgeName = "Ring of Ineffable Knowledge";
         public string RingKnowledgeName = "Ring of Knowledge";
         public string RingInsightName = "Ring of Insight";
         public int RingIneffableKnowledge => this.ja.GetObjectId("Ring of Ineffable Knowledge");
         public int RingIneffableKnowledgeElusive => this.ja.GetObjectId("Elusive Ring");
-        public int RingKnowledge => this.ja.GetObjectId("Ring of Knowledge");
-        public int RingInsight => this.ja.GetObjectId("Ring of Insight");
         public double expMult = 0.0;
         public int[] oldExperiencePoints = new int[6];
         
@@ -345,7 +336,13 @@ namespace SkillRings
                 this.hasCookingSkill = true;
                 this.cookingSkill = Skills.GetSkill("spacechase0.Cooking");
             }
-            
+
+            if(this.Helper.ModRegistry.IsLoaded("drbirbdev.BinningSkill"))
+            {
+                this.hasBinningSkill = true;
+                this.binningSkill = Skills.GetSkill("drbirbdev.Binning");
+            }
+
             if(this.hasWMR)
                 this.moreRings = this.Helper.ModRegistry.GetApi<IMoreRingsApi>("bcmpinc.WearMoreRings");
         }
@@ -380,15 +377,15 @@ namespace SkillRings
                 return;
             
             //Fishing skill
-            if(this.ringEquipped(this.RingLegendaryAngler, this.RingLegendaryAnglerName))
+            if(this.ringEquipped(this.RingLegendaryAnglerName))
             {
                 if(this.addedFishing < this.cfg.tier3SkillRingBoost) this.addedFishingNew = this.cfg.tier3SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingMadMariner, this.RingMadMarinerName))
+            else if(this.ringEquipped(this.RingMadMarinerName))
             {
                 if(this.addedFishing < this.cfg.tier2SkillRingBoost) this.addedFishingNew = this.cfg.tier2SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingApprenticeFisher, this.RingApprenticeFisherName))
+            else if(this.ringEquipped(this.RingApprenticeFisherName))
             {
                 if(this.addedFishing == 0) this.addedFishingNew = this.cfg.tier1SkillRingBoost;
             }
@@ -402,15 +399,15 @@ namespace SkillRings
             }
 
             //Farming skill
-            if(this.ringEquipped(this.RingNaturesOracle, this.RingNaturesOracleName))
+            if(this.ringEquipped(this.RingNaturesOracleName))
             {
                 if(this.addedFarming < this.cfg.tier3SkillRingBoost) this.addedFarmingNew = this.cfg.tier3SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingGreenThumb, this.RingGreenThumbName))
+            else if(this.ringEquipped(this.RingGreenThumbName))
             {
                 if(this.addedFarming < this.cfg.tier2SkillRingBoost) this.addedFarmingNew = this.cfg.tier2SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingDecentSoil, this.RingDecentSoilName))
+            else if(this.ringEquipped(this.RingDecentSoilName))
             {
                 if(this.addedFarming == 0) this.addedFarmingNew = this.cfg.tier1SkillRingBoost;
             }
@@ -424,15 +421,15 @@ namespace SkillRings
             }
 
             //Foraging skill
-            if(this.ringEquipped(this.RingNaturalBounty, this.RingNaturalBountyName))
+            if(this.ringEquipped(this.RingNaturalBountyName))
             {
                 if(this.addedForaging < this.cfg.tier3SkillRingBoost) this.addedForagingNew = this.cfg.tier3SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingGatherer, this.RingGathererName))
+            else if(this.ringEquipped(this.RingGathererName))
             {
                 if(this.addedForaging < this.cfg.tier2SkillRingBoost) this.addedForagingNew = this.cfg.tier2SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingDeepRoots, this.RingDeepRootsName))
+            else if(this.ringEquipped(this.RingDeepRootsName))
             {
                 if(this.addedForaging == 0) this.addedForagingNew = this.cfg.tier1SkillRingBoost;
             }
@@ -446,15 +443,15 @@ namespace SkillRings
             }
 
             //Mining skill
-            if(this.ringEquipped(this.RingDwarvenLuck, this.RingDwarvenLuckName))
+            if(this.ringEquipped(this.RingDwarvenLuckName))
             {
                 if(this.addedMining < this.cfg.tier3SkillRingBoost) this.addedMiningNew = this.cfg.tier3SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingCaves, this.RingCavesName))
+            else if(this.ringEquipped(this.RingCavesName))
             {
                 if(this.addedMining < this.cfg.tier2SkillRingBoost) this.addedMiningNew = this.cfg.tier2SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingWieldyPick, this.RingWieldyPickName))
+            else if(this.ringEquipped(this.RingWieldyPickName))
             {
                 if(this.addedMining == 0) this.addedMiningNew = this.cfg.tier1SkillRingBoost;
             }
@@ -468,15 +465,15 @@ namespace SkillRings
             }
 
             //Luck skill
-            if(this.ringEquipped(this.RingLoadedDie, this.RingLoadedDieName))
+            if(this.ringEquipped(this.RingLoadedDieName))
             {
                 if(this.addedLuck < this.cfg.tier3SkillRingBoost) this.addedLuckNew = this.cfg.tier3SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingTheGambler, this.RingTheGamblerName))
+            else if(this.ringEquipped(this.RingTheGamblerName))
             {
                 if(this.addedLuck < this.cfg.tier2SkillRingBoost) this.addedLuckNew = this.cfg.tier2SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingBetterOdds, this.RingBetterOddsName))
+            else if(this.ringEquipped(this.RingBetterOddsName))
             {
                 if(this.addedLuck == 0) this.addedLuckNew = this.cfg.tier1SkillRingBoost;
             }
@@ -490,15 +487,15 @@ namespace SkillRings
             }
 
             //Combat skill
-            if(this.ringEquipped(this.RingWarGod, this.RingWarGodName))
+            if(this.ringEquipped(this.RingWarGodName))
             {
                 if(this.addedCombat < this.cfg.tier3SkillRingBoost) this.addedCombatNew = this.cfg.tier3SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingPureStrength, this.RingPureStrengthName))
+            else if(this.ringEquipped(this.RingPureStrengthName))
             {
                 if(this.addedCombat < this.cfg.tier2SkillRingBoost) this.addedCombatNew = this.cfg.tier2SkillRingBoost;
             }
-            else if(this.ringEquipped(this.RingSharperBlades, this.RingSharperBladesName))
+            else if(this.ringEquipped(this.RingSharperBladesName))
             {
                 if(this.addedCombat == 0) this.addedCombatNew = this.cfg.tier1SkillRingBoost;
             }
@@ -521,15 +518,15 @@ namespace SkillRings
 
             //Experience Rings
             this.expMult = 0.0;
-            if(this.ringEquipped(this.RingIneffableKnowledge, this.RingIneffableKnowledgeName))
+            if(this.ringEquipped(this.RingIneffableKnowledgeName))
             {
                 this.expMult = this.cfg.tier3ExperienceRingBoost;
             }
-            else if(this.ringEquipped(this.RingKnowledge, this.RingKnowledgeName))
+            else if(this.ringEquipped(this.RingKnowledgeName))
             {
                 this.expMult = this.cfg.tier2ExperienceRingBoost;
             }
-            else if(this.ringEquipped(this.RingInsight, this.RingInsightName))
+            else if(this.ringEquipped(this.RingInsightName))
             {
                 this.expMult = this.cfg.tier1ExperienceRingBoost;
             }
@@ -541,7 +538,7 @@ namespace SkillRings
             {
                 if(Game1.player.experiencePoints[index] > this.oldExperiencePoints[index])
                 {
-                    Game1.player.gainExperience(index, (int) (this.expMult * (Game1.player.experiencePoints[index] - this.oldExperiencePoints[index])));
+                    Game1.player.gainExperience(index, (int) ((Game1.player.experiencePoints[index] - this.oldExperiencePoints[index]) * this.expMult));
                     this.oldExperiencePoints[index] = Game1.player.experiencePoints[index];
                 }
             }
@@ -550,6 +547,12 @@ namespace SkillRings
             {
                 Skills.AddExperience(Game1.player, this.cookingSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id) - this.oldCookingExperience)));
                 this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
+            }
+
+            if(this.hasBinningSkill)
+            {
+                Skills.AddExperience(Game1.player, this.binningSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.binningSkill.Id) - this.oldBinningExperience)));
+                this.oldBinningExperience = Skills.GetExperienceFor(Game1.player, this.binningSkill.Id);
             }
         }
 
@@ -954,7 +957,7 @@ namespace SkillRings
             return false;
         }
 
-        private bool ringEquipped(int id, string name)
+        private bool ringEquipped(string name)
         {
             //If Wear More Rings is enabled
             if(this.hasWMR)
@@ -999,17 +1002,18 @@ namespace SkillRings
                 else if(Game1.player.rightRing.Value is CombinedRing combinedRing9 && this.recursiveCombinedSearch(combinedRing9, name))
                     return true;
             }
+            
             //Otherwise return the most disgusting "one line" conditional known to man
-            return Game1.player.leftRing.Value != null &&                          //If a left ring is worn
-                   Game1.player.leftRing.Value.ParentSheetIndex == id ||           //And if said left ring is the ring we're looking for return true
-                   Game1.player.rightRing.Value != null &&                         //If a right ring is worn
-                   Game1.player.rightRing.Value.ParentSheetIndex == id ||          //And if said right ring is the ring we're looking for return true
-                   Game1.player.leftRing.Value is CombinedRing combinedRing10 &&   //If the left ring is a combined ring
-                   (combinedRing10.combinedRings[0].Name == name ||                //If the internal "Left Ring" is the ring we're looking for or
-                        combinedRing10.combinedRings[1].Name == name) ||           //If the internal "Right Ring" is the ring we're looking for return true
-                   Game1.player.rightRing.Value is CombinedRing combinedRing11 &&  //If the right ring is a combined ring
-                   (combinedRing11.combinedRings[0].Name == name ||                //If the internal "Left Ring" is the ring we're looking for or
-                        combinedRing11.combinedRings[1].Name == name);             //If the internal "Right Ring" is the ring we're looking for return true
+            return (Game1.player.leftRing.Value != null &&                          //If a left ring is worn
+                        Game1.player.leftRing.Value.Name == name) ||           //And if said left ring is the ring we're looking for return true
+                   (Game1.player.rightRing.Value != null &&                         //If a right ring is worn
+                        Game1.player.rightRing.Value.Name == name) ||          //And if said right ring is the ring we're looking for return true
+                   (Game1.player.leftRing.Value is CombinedRing combinedRing10 &&   //If the left ring is a combined ring
+                        (combinedRing10.combinedRings[0].Name == name ||                //If the internal "Left Ring" is the ring we're looking for or
+                            combinedRing10.combinedRings[1].Name == name)) ||           //If the internal "Right Ring" is the ring we're looking for return true
+                   (Game1.player.rightRing.Value is CombinedRing combinedRing11 &&  //If the right ring is a combined ring
+                        (combinedRing11.combinedRings[0].Name == name ||                //If the internal "Left Ring" is the ring we're looking for or
+                            combinedRing11.combinedRings[1].Name == name));             //If the internal "Right Ring" is the ring we're looking for return true
         }
 
         //Handle the giving and animation for recieving a Tier 3 ring
