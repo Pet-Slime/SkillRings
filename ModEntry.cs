@@ -25,6 +25,7 @@ namespace SkillRings
         public bool hasWMR = false; //Wear More Rings
         public bool hasCMR = false; //Combined Many Rings / Balanced Combined Many Rings
         public bool hasCookingSkill = false; //Cooking Skill
+        public bool hasBlueberryCookingSkill = false;
         public bool hasLuckSkill = false; //Luck Skill
         public bool hasBinningSkill = false; //Binning Skill
 
@@ -84,6 +85,7 @@ namespace SkillRings
         //Cooking Skill(Base mods have no additive bonus compatibility)
         public Skills.Skill cookingSkill;
         public int oldCookingExperience = 0;
+        public IBlueCookingSkillAPI cookingAPI;
 
         //Binning Skill(Base mods have no additive bonus compatibility)
         public Skills.Skill binningSkill;
@@ -313,6 +315,8 @@ namespace SkillRings
 
             if(this.hasCookingSkill && !(this.cookingSkill is null))
                 this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
+            if(this.hasBlueberryCookingSkill && !(this.cookingAPI is null))
+                this.oldCookingExperience = this.cookingAPI.GetTotalCurrentExperience();
 
             this.fixHealth("", new string[0]);
         }
@@ -335,6 +339,12 @@ namespace SkillRings
             {
                 this.hasCookingSkill = true;
                 this.cookingSkill = Skills.GetSkill("spacechase0.Cooking");
+            }
+
+            if(this.Helper.ModRegistry.IsLoaded("blueberry.LoveOfCooking"))
+            {
+                this.hasBlueberryCookingSkill = true;
+                this.cookingAPI = this.Helper.ModRegistry.GetApi<IBlueCookingSkillAPI>("blueberry.LoveOfCooking");
             }
 
             if(this.Helper.ModRegistry.IsLoaded("drbirbdev.BinningSkill"))
@@ -545,14 +555,35 @@ namespace SkillRings
 
             if(this.hasCookingSkill)
             {
-                Skills.AddExperience(Game1.player, this.cookingSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id) - this.oldCookingExperience)));
-                this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
+                if(Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id) > this.oldCookingExperience)
+                {
+                    
+                    Skills.AddExperience(Game1.player, this.cookingSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id) - this.oldCookingExperience)));
+                    this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
+                }
+            }
+
+            if(this.hasBlueberryCookingSkill)
+            {
+                if(this.cookingAPI.GetTotalCurrentExperience() > this.oldCookingExperience)
+                {
+                    //this.Monitor.Log(string.Format("Old EXP: {0}", this.oldCookingExperience), (LogLevel) 1);
+                    //this.Monitor.Log(string.Format("Current EXP: {0}", this.cookingAPI.GetTotalCurrentExperience()), (LogLevel) 1);
+                    //this.Monitor.Log(string.Format("Boost: {0}", this.expMult * (this.cookingAPI.GetTotalCurrentExperience() - this.oldCookingExperience)), (LogLevel) 1);
+                    //this.Monitor.Log("" + this.oldCookingExperience, (LogLevel) 1);
+                    this.cookingAPI.AddExperienceDirectly((int) (this.expMult * (this.cookingAPI.GetTotalCurrentExperience() - this.oldCookingExperience)));
+                    //this.Monitor.Log(string.Format("New EXP: {0}", this.cookingAPI.GetTotalCurrentExperience()), (LogLevel) 1);
+                    this.oldCookingExperience = this.cookingAPI.GetTotalCurrentExperience();
+                }
             }
 
             if(this.hasBinningSkill)
             {
-                Skills.AddExperience(Game1.player, this.binningSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.binningSkill.Id) - this.oldBinningExperience)));
-                this.oldBinningExperience = Skills.GetExperienceFor(Game1.player, this.binningSkill.Id);
+                if(Skills.GetExperienceFor(Game1.player, this.binningSkill.Id) > this.oldBinningExperience)
+                {
+                    Skills.AddExperience(Game1.player, this.binningSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.binningSkill.Id) - this.oldBinningExperience)));
+                    this.oldBinningExperience = Skills.GetExperienceFor(Game1.player, this.binningSkill.Id);
+                }
             }
         }
 
