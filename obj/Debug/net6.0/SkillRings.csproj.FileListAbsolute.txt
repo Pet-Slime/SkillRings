@@ -1,0 +1,11 @@
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.csproj.AssemblyReference.cache
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.AssemblyInfoInputs.cache
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.AssemblyInfo.cs
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.csproj.CoreCompileInputs.cache
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.sourcelink.json
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\bin\Debug\net6.0\SkillRings.deps.json
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\bin\Debug\net6.0\SkillRings.dll
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\bin\Debug\net6.0\SpaceCore.dll
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.csproj.Up2Date
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.dll

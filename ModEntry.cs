@@ -10,115 +10,29 @@ using StardewValley.Locations;
 using StardewValley.Objects;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
+using StardewValley.Buffs;
 
 namespace SkillRings
 {
-    public class ModEntry : Mod
+    internal sealed class ModEntry : Mod
     {
-        //Initializing all of the used variables
-        private IJsonAssetsApi ja;
         private ModConfig cfg;
 
-        //Variables adding support for other mods
-        private IMoreRingsApi moreRings;
-        public bool hasSVE = false; //Stardew Valley Expanded
-        public bool hasWMR = false; //Wear More Rings
-        public bool hasCMR = false; //Combined Many Rings / Balanced Combined Many Rings
-        public bool hasCookingSkill = false; //Cooking Skill
-        public bool hasBlueberryCookingSkill = false;
-        public bool hasLuckSkill = false; //Luck Skill
-        public bool hasBinningSkill = false; //Binning Skill
+        private bool hasSpaceLuckSkill = false;
+        private bool hasSVE = false;
 
-        //Fishing Rings
-        public string RingLegendaryAnglerName = "Ring of the Legendary Angler";
-        public string RingMadMarinerName = "Ring of the Mad Mariner";
-        public string RingApprenticeFisherName = "Ring of the Apprentice Fisher";
-        public int RingLegendaryAngler => this.ja.GetObjectId("Ring of the Legendary Angler");
-        public int RingLegendaryAnglerDusty => this.ja.GetObjectId("Dusty Ring");
-        public int addedFishing = 0;
-        public int addedFishingNew = 0;
+        private float expMultiplier = 0f;
+        private int[] oldExperience = { 0, 0, 0, 0, 0, 0 };
 
-        //Farming Rings
-        public string RingNaturesOracleName = "Ring of Nature's Oracle";
-        public string RingGreenThumbName = "Ring of the Green Thumb";
-        public string RingDecentSoilName = "Ring of Decent Soil";
-        public int RingNaturesOracle => this.ja.GetObjectId("Ring of Nature's Oracle");
-        public int RingNaturesOracleGrassy => this.ja.GetObjectId("Grassy Ring");
-        public int addedFarming = 0;
-        public int addedFarmingNew = 0;
-
-        //Foraging Rings
-        public string RingNaturalBountyName = "Ring of Natural Bounty";
-        public string RingGathererName = "Ring of the Gatherer";
-        public string RingDeepRootsName = "Ring of Deep Roots";
-        public int RingNaturalBounty => this.ja.GetObjectId("Ring of Natural Bounty");
-        public int RingNaturalBountySticky => this.ja.GetObjectId("Sticky Ring");
-        public int addedForaging = 0;
-        public int addedForagingNew = 0;
-
-        //Mining Rings
-        public string RingDwarvenLuckName = "Ring of Dwarven Luck";
-        public string RingCavesName = "Ring of the Caves";
-        public string RingWieldyPickName = "Ring of the Wieldy Pick";
-        public int RingDwarvenLuck => this.ja.GetObjectId("Ring of Dwarven Luck");
-        public int RingDwarvenLuckStone => this.ja.GetObjectId("Stone Ring");
-        public int addedMining = 0;
-        public int addedMiningNew = 0;
-
-        //Combat Rings
-        public string RingWarGodName = "Ring of the War God";
-        public string RingPureStrengthName = "Ring of Pure Strength";
-        public string RingSharperBladesName = "Ring of Sharper Blades";
-        public int RingWarGod => this.ja.GetObjectId("Ring of the War God");
-        public int RingWarGodCursed => this.ja.GetObjectId("Cursed Ring");
-        public int addedCombat = 0;
-        public int addedCombatNew = 0;
-
-        //Luck Rings
-        public string RingLoadedDieName = "Ring of Loaded Die";
-        public string RingTheGamblerName = "Ring of the Gambler";
-        public string RingBetterOddsName = "Ring of Better Odds";
-        public int RingLoadedDie => this.ja.GetObjectId("Ring of Loaded Die");
-        public int addedLuck = 0;
-        public int addedLuckNew = 0;
-
-        //Cooking Skill(Base mods have no additive bonus compatibility)
-        public Skills.Skill cookingSkill;
-        public int oldCookingExperience = 0;
-        public IBlueCookingSkillAPI cookingAPI;
-
-        //Binning Skill(Base mods have no additive bonus compatibility)
-        public Skills.Skill binningSkill;
-        public int oldBinningExperience = 0;
-
-        //Experience Rings
-        public string RingIneffableKnowledgeName = "Ring of Ineffable Knowledge";
-        public string RingKnowledgeName = "Ring of Knowledge";
-        public string RingInsightName = "Ring of Insight";
-        public int RingIneffableKnowledge => this.ja.GetObjectId("Ring of Ineffable Knowledge");
-        public int RingIneffableKnowledgeElusive => this.ja.GetObjectId("Elusive Ring");
-        public double expMult = 0.0;
-        public int[] oldExperiencePoints = new int[6];
-        
-
-        //Runs when the mod gets loaded into the game
         public override void Entry(IModHelper helper)
         {
-            //Tying functions to the game
             helper.Events.GameLoop.GameLaunched += new EventHandler<GameLaunchedEventArgs>(this.onGameLaunched);
-            helper.Events.GameLoop.DayStarted += new EventHandler<DayStartedEventArgs>(this.onDayStarted);
             helper.Events.GameLoop.UpdateTicked += new EventHandler<UpdateTickedEventArgs>(this.onUpdateTicked);
+            helper.Events.GameLoop.DayStarted += new EventHandler<DayStartedEventArgs>(this.onDayStarted);
             helper.Events.Input.ButtonPressed += new EventHandler<ButtonPressedEventArgs>(this.onButtonPressed);
+
             //Adding console commands to the game
-            //Shows all of the tier 3 rings the game believes the player to have obtained, ideally should never have to be used but the game gets weird sometimes
-            helper.ConsoleCommands.Add("checkrings", "Displays which tier 3 rings the player has gotten.\n\nUsage: checkrings", new Action<string, string[]>(this.checkRings));
-            //Resets the status of the provided tier 3 ring allowing the player to obtain them again, only really useful if the player accidentally deletes a tier3 or for some reason the game thinks they've gotten it
-            helper.ConsoleCommands.Add("resetring", "Resets a ring so you can obtain it again\n\nUsage: resetring <ring>\n- ring: legendaryAngler|naturesOracle|naturalBounty|dwarvenLuck|warGod|ineffableKnowledge", new Action<string, string[]>(this.resetRing));
-            //Checks which of the "Broken" tier 3 rings have been sent in the mail to the player
-            helper.ConsoleCommands.Add("checkmail", "Displays which tier 3 rings the player has recieved in the mail.\n\nUsage: checkmail", new Action<string, string[]>(this.checkMail));
-            //Allows the player to recieve the provided "Broken" ring in the mail again
-            //Note: Does not guarentee the ring will arrive the next day, the conditions must still be met and it is a 10% change each day the conditions are met to recieve it
-            helper.ConsoleCommands.Add("resetmail", "Resets mail so you can obtain it again\n\nUsage: resetmail <ring>\n- ring: DustyRing|GrassyRing|CursedRing|StickyRing|StoneRing|DeepRootsRecipe|GathererRecipe", new Action<string, string[]>(this.resetMail));
             //Fixes the health of the player if it was messed up by the mod
             helper.ConsoleCommands.Add("fixhealth", "Changes max health to what it should be, take off combat rings and don't have combat buffs on\n\nUsage: fixhealth", new Action<string, string[]>(this.fixHealth));
             //Converts the held broken ring into its fixed tier 3 equivalent
@@ -127,52 +41,6 @@ namespace SkillRings
             this.cfg = helper.ReadConfig<ModConfig>();
         }
 
-        //Function to repair a broken tier 3 ring
-        private void fixRing(string command, string[] args)
-        {
-            if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingLegendaryAnglerDusty))
-            {
-                Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingLegendaryAngler, "legendaryAnglerRing");
-                this.Monitor.Log("Got the Ring of the Legendary Angler.", (LogLevel) 1);
-            } 
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingNaturesOracleGrassy))
-            {
-                Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingNaturesOracle, "naturesOracleRing");
-                this.Monitor.Log("Got the Ring of Nature's Oracle.", (LogLevel) 1);
-            } 
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingNaturalBountySticky))
-            {
-                Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingNaturalBounty, "naturalBountyRing");
-                this.Monitor.Log("Got the Ring of Natural Bounty.", (LogLevel) 1);
-            }
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingDwarvenLuckStone))
-            {
-                Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingDwarvenLuck, "dwarvenLuckRing");
-                this.Monitor.Log("Got the Ring of Dwarven Luck.", (LogLevel) 1);
-            }
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingWarGodCursed))
-            {
-                Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingWarGod, "warGodRing");
-                this.Monitor.Log("Got the Ring of the War God.", (LogLevel) 1);
-            }
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingIneffableKnowledgeElusive))
-            {
-                Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingIneffableKnowledge, "ineffableKnowledgeRing");
-                this.Monitor.Log("Got the Ring of Ineffable Knowledge.", (LogLevel) 1);
-            } 
-            else
-            {
-                this.Monitor.Log("Player not holding a broken ring.", (LogLevel) 1);
-            }
-        }
-
-        //Function to fix a player's health if it was messed up by a ring
         private void fixHealth(string command, string[] args)
         {
             int skillLevel = Game1.player.GetSkillLevel(4);
@@ -206,388 +74,86 @@ namespace SkillRings
             Game1.player.health = num;
         }
 
-        //Function handling the resetRing command
-        private void resetRing(string command, string[] args)
+        private void fixRing(string command, string[] args)
         {
-            //Makes sure the second argument is valid
-            if(args[0] == "legendaryAngler" || args[0] == "naturesOracle" || args[0] == "naturalBounty" || args[0] == "dwarvenLuck" || args[0] == "warGod" || args[0] == "ineffableKnowledge")
+            if(Game1.player.ActiveObject.ItemId == "AlphaMeece.SkillRings_FishingRingB")
             {
-                //Checks the player's mail for the ring
-                if(!Game1.player.mailReceived.Contains(args[0] + "Ring"))
-                {
-                    //If they've not recieved the ring the print
-                    this.Monitor.Log("Player has not obtained the " + args[0] + " Ring", (LogLevel) 1);
-                }
-                else
-                {
-                    //If they have then remove the piece of mail and log it
-                    Game1.player.mailReceived.Remove(args[0] + "Ring");
-                    this.Monitor.Log("Successfully reset " + args[0] + " Ring", (LogLevel) 1);
-                }
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring("AlphaMeece.SkillRings_FishingRing3");
+                this.Monitor.Log("Got the Ring of the Legendary Angler.", (LogLevel) 1);
+            }
+            else if(Game1.player.ActiveObject.ItemId == "AlphaMeece.SkillRings_FarmingRingB")
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring("AlphaMeece.SkillRings_FarmingRing3");
+                this.Monitor.Log("Got the Ring of Nature's Oracle.", (LogLevel) 1);
+            }
+            else if(Game1.player.ActiveObject.ItemId == "AlphaMeece.AlphaMeece.SkillRings_ForagingRingB")
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring("AlphaMeece.SkillRings_ForagingRing3");
+                this.Monitor.Log("Got the Ring of Natural Bounty.", (LogLevel) 1);
+            }
+            else if(Game1.player.ActiveObject.ItemId == "AlphaMeece.SkillRings_MiningRingB")
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring("AlphaMeece.SkillRings_MiningRing#");
+                this.Monitor.Log("Got the Ring of Dwarven Luck.", (LogLevel) 1);
+            }
+            else if(Game1.player.ActiveObject.ItemId == "AlphaMeece.SkillRings_CombatRingB")
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring("AlphaMeece.SkillRings_CombatRing3");
+                this.Monitor.Log("Got the Ring of the War God.", (LogLevel) 1);
+            }
+            else if(Game1.player.ActiveObject.ItemId == "AlphaMeece.SkillRings_ExperienceRingB")
+            {
+                Game1.player.reduceActiveItemByOne();
+                this.getTier3Ring("AlphaMeece.SkillRings_ExperienceRing3");
+                this.Monitor.Log("Got the Ring of Ineffable Knowledge.", (LogLevel) 1);
             }
             else
-                this.Monitor.Log("Please enter one of legendaryAngler|naturesOracle|naturalBounty|dwarvenLuck|warGod|ineffableKnowledge", (LogLevel) 1);
-        }
-
-        //Function handling the resetMail command
-        //Almost identical to the function above but tied to the MFM mail
-        private void resetMail(string command, string[] args)
-        {
-            if(args[0] == "DustyRing" || args[0] == "GrassyRing" || args[0] == "CursedRing" || args[0] == "StoneRing" || args[0] == "DeepRootsRecipe" || args[0] == "GathererRecipe" || args[0] == "StickyRing")
             {
-                if(!Game1.player.mailReceived.Contains("SkillRings." + args[0]))
-                {
-                    this.Monitor.Log("Player has not obtained the " + args[0] + " Mail", (LogLevel) 1);
-                }
-                else
-                {
-                    Game1.player.mailReceived.Remove("SkillRings." + args[0]);
-                    this.Monitor.Log("Successfully reset " + args[0] + " Mail", (LogLevel) 1);
-                }
+                this.Monitor.Log("Player not holding a broken ring.", (LogLevel) 1);
             }
-            else
-                this.Monitor.Log("Please enter one of DustyRing|GrassyRing|CursedRing|StickyRing|StoneRing|DeepRootsRecipe|GathererRecipe", (LogLevel) 1);
         }
 
-        //Function handling the checkRings command
-        private void checkRings(string command, string[] args)
+        private void getTier3Ring(string id)
         {
-            this.Monitor.Log(string.Format("legendaryAngler: {0}", Game1.player.mailReceived.Contains("legendaryAnglerRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("naturesOracle: {0}", Game1.player.mailReceived.Contains("naturesOracleRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("naturalBounty: {0}", Game1.player.mailReceived.Contains("naturalBountyRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("dwarvenLuck: {0}", Game1.player.mailReceived.Contains("dwarvenLuckRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("warGod: {0}", Game1.player.mailReceived.Contains("warGodRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("ineffableKnowledge: {0}", Game1.player.mailReceived.Contains("ineffableKnowledgeRing")), (LogLevel) 1);
+            Game1.flashAlpha = 1.0F;
+            Game1.player.holdUpItemThenMessage(new StardewValley.Object(id, 1, false, -1, 0), true);
+            if(!Game1.player.addItemToInventoryBool(new StardewValley.Object(id, 1, false, -1, 0), false))
+                Game1.createItemDebris(new StardewValley.Object(id, 1, false, -1, 0), Game1.player.getStandingPosition(), 1, null, -1);
+            Game1.player.jitterStrength = 0.0F;
+            Game1.screenGlowHold = false;
         }
 
-        //Function handling the checkMail command
-        private void checkMail(string command, string[] args)
-        {
-            this.Monitor.Log(string.Format("DustyRing: {0}", Game1.player.mailReceived.Contains("SkillRings.DustyRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("StickyRing: {0}", Game1.player.mailReceived.Contains("SkillRings.StickyRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("GrassyRing: {0}", Game1.player.mailReceived.Contains("SkillRings.GrassyRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("CursedRing: {0}", Game1.player.mailReceived.Contains("SkillRings.CursedRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("StoneRing: {0}", Game1.player.mailReceived.Contains("SkillRings.StoneRing")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("DeepRootsRecipe: {0}", Game1.player.mailReceived.Contains("SkillRings.DeepRootsRecipe")), (LogLevel) 1);
-            this.Monitor.Log(string.Format("GathererRecipe: {0}", Game1.player.mailReceived.Contains("SkillRings.GathererRecipe")), (LogLevel) 1);
-        }
-
-        //Runs each time the day starts
         private void onDayStarted(object sender, DayStartedEventArgs e)
         {
-            //Set the mod's added values
-            this.addedFishing = 0;
-            this.addedFishingNew = 0;
-            this.addedFarming = 0;
-            this.addedFarmingNew = 0;
-            this.addedForaging = 0;
-            this.addedForagingNew = 0;
-            this.addedMining = 0;
-            this.addedMiningNew = 0;
-            this.addedLuck = 0;
-            this.addedLuckNew = 0;
-            this.expMult = 0.0;
-
-            //This is needed so health is properly calculated
-            if(this.addedCombat == this.cfg.tier3SkillRingBoost)
-            {
-                Game1.player.maxHealth -= 5 * this.cfg.tier3SkillRingBoost;
-                Game1.player.health -= 5 * this.cfg.tier3SkillRingBoost;
-            } else if(this.addedCombat == this.cfg.tier2SkillRingBoost)
-            {
-                Game1.player.maxHealth -= 5 * this.cfg.tier2SkillRingBoost;
-                Game1.player.health -= 5 * this.cfg.tier2SkillRingBoost;
-            } else if(this.addedCombat == this.cfg.tier1SkillRingBoost)
-            {
-                Game1.player.maxHealth -= 5 * this.cfg.tier1SkillRingBoost;
-                Game1.player.health -= 5 * this.cfg.tier1SkillRingBoost;
-            }
-            this.addedCombat = 0;
-            this.addedCombatNew = 0;
-
-            //Set the old experience points for each skill, { farming, fishing, foraging, mining, combat, luck }
-            this.oldExperiencePoints[0] = Game1.player.experiencePoints[0];
-            this.oldExperiencePoints[1] = Game1.player.experiencePoints[1];
-            this.oldExperiencePoints[2] = Game1.player.experiencePoints[2];
-            this.oldExperiencePoints[3] = Game1.player.experiencePoints[3];
-            this.oldExperiencePoints[4] = Game1.player.experiencePoints[4];
-            this.oldExperiencePoints[5] = Game1.player.experiencePoints[5];
-
-            if(this.hasCookingSkill && !(this.cookingSkill is null))
-                this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
-            if(this.hasBlueberryCookingSkill && !(this.cookingAPI is null))
-                this.oldCookingExperience = this.cookingAPI.GetTotalCurrentExperience();
-
-            this.fixHealth("", new string[0]);
+            this.oldExperience = Game1.player.experiencePoints.ToArray();
+            handleMail();
         }
 
-        //Runs after the game is loaded and when the game actually launches
         private void onGameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            //Load the jsonAssets api for getting the rings as variables
-            IJsonAssetsApi api = this.Helper.ModRegistry.GetApi<IJsonAssetsApi>("spacechase0.JsonAssets");
-            this.ja = api;
-            api.LoadAssets(Path.Combine(this.Helper.DirectoryPath, "assets"));
-
-            //Check for compatible mods
+            this.hasSpaceLuckSkill = this.Helper.ModRegistry.IsLoaded("spacechase0.LuckSkill");
             this.hasSVE = this.Helper.ModRegistry.IsLoaded("FlashShifter.SVECode");
-            this.hasWMR = this.Helper.ModRegistry.IsLoaded("bcmpinc.WearMoreRings");
-            this.hasCMR = this.Helper.ModRegistry.IsLoaded("Stari.CombineManyRings") || this.Helper.ModRegistry.IsLoaded("Arruda.BalancedCombineManyRings");
-            this.hasLuckSkill = this.Helper.ModRegistry.IsLoaded("spacechase0.LuckSkill");
-            
-            if(this.Helper.ModRegistry.IsLoaded("spacechase0.CookingSkill"))
-            {
-                this.hasCookingSkill = true;
-                this.cookingSkill = Skills.GetSkill("spacechase0.Cooking");
-            }
-
-            if(this.Helper.ModRegistry.IsLoaded("blueberry.LoveOfCooking"))
-            {
-                this.hasBlueberryCookingSkill = true;
-                this.cookingAPI = this.Helper.ModRegistry.GetApi<IBlueCookingSkillAPI>("blueberry.LoveOfCooking");
-            }
-
-            if(this.Helper.ModRegistry.IsLoaded("drbirbdev.BinningSkill"))
-            {
-                this.hasBinningSkill = true;
-                this.binningSkill = Skills.GetSkill("drbirbdev.Binning");
-            }
-
-            if(this.hasWMR)
-                this.moreRings = this.Helper.ModRegistry.GetApi<IMoreRingsApi>("bcmpinc.WearMoreRings");
+            //this.hasWMR = this.Helper.ModRegistry.IsLoaded("bcmpinc.WearMoreRings");
+            //this.hasCMR = this.Helper.ModRegistry.IsLoaded("Stari.CombineManyRings") || this.Helper.ModRegistry.IsLoaded("Arruda.BalancedCombineManyRings");
         }
 
-        //Runs when the game is saved, this is unique to combat because health changes are permanent
-        public void Saving(object sender, SavingEventArgs e)
+        private bool checkLocations(int[,] coords, Vector2 tile)
         {
-            if(this.addedCombat == this.cfg.tier3SkillRingBoost)
+            for(int index = 0; index < coords.GetLength(0); ++index)
             {
-                Game1.player.maxHealth -= 5 * this.cfg.tier3SkillRingBoost;
-                Game1.player.health -= 5 * this.cfg.tier3SkillRingBoost;
+                int coord1 = coords[index, 0];
+                int coord2 = coords[index, 1];
+                if(tile == new Vector2(coord1, coord2))
+                    return true;
             }
-            else if(this.addedCombat == this.cfg.tier2SkillRingBoost)
-            {
-                Game1.player.maxHealth -= 5 * this.cfg.tier2SkillRingBoost;
-                Game1.player.health -= 5 * this.cfg.tier2SkillRingBoost;
-            }
-            else if(this.addedCombat == this.cfg.tier1SkillRingBoost)
-            {
-                Game1.player.maxHealth -= 5 * this.cfg.tier1SkillRingBoost;
-                Game1.player.health -= 5 * this.cfg.tier1SkillRingBoost;
-            }
-            this.addedCombat = 0;
-            this.addedCombatNew = 0;
+            return false;
         }
 
-        //Runs every game tick, I set it to only run the code every second
-        private void onUpdateTicked(object sender, UpdateTickedEventArgs e)
-        {
-            //Makes sure the code only runs every second
-            if(!Context.IsPlayerFree || !e.IsOneSecond)
-                return;
-            
-            //Fishing skill
-            if(this.ringEquipped(this.RingLegendaryAnglerName))
-            {
-                if(this.addedFishing < this.cfg.tier3SkillRingBoost) this.addedFishingNew = this.cfg.tier3SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingMadMarinerName))
-            {
-                if(this.addedFishing < this.cfg.tier2SkillRingBoost) this.addedFishingNew = this.cfg.tier2SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingApprenticeFisherName))
-            {
-                if(this.addedFishing == 0) this.addedFishingNew = this.cfg.tier1SkillRingBoost;
-            }
-            else this.addedFishingNew = 0;
-
-            if(this.addedFishingNew != this.addedFishing)
-            {
-                Game1.player.addedFishingLevel.Value -= this.addedFishing;
-                this.addedFishing = this.addedFishingNew;
-                Game1.player.addedFishingLevel.Value += this.addedFishing;
-            }
-
-            //Farming skill
-            if(this.ringEquipped(this.RingNaturesOracleName))
-            {
-                if(this.addedFarming < this.cfg.tier3SkillRingBoost) this.addedFarmingNew = this.cfg.tier3SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingGreenThumbName))
-            {
-                if(this.addedFarming < this.cfg.tier2SkillRingBoost) this.addedFarmingNew = this.cfg.tier2SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingDecentSoilName))
-            {
-                if(this.addedFarming == 0) this.addedFarmingNew = this.cfg.tier1SkillRingBoost;
-            }
-            else this.addedFarmingNew = 0;
-
-            if(this.addedFarmingNew != this.addedFarming)
-            {
-                Game1.player.addedFarmingLevel.Value -= this.addedFarming;
-                this.addedFarming = this.addedFarmingNew;
-                Game1.player.addedFarmingLevel.Value += this.addedFarming;
-            }
-
-            //Foraging skill
-            if(this.ringEquipped(this.RingNaturalBountyName))
-            {
-                if(this.addedForaging < this.cfg.tier3SkillRingBoost) this.addedForagingNew = this.cfg.tier3SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingGathererName))
-            {
-                if(this.addedForaging < this.cfg.tier2SkillRingBoost) this.addedForagingNew = this.cfg.tier2SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingDeepRootsName))
-            {
-                if(this.addedForaging == 0) this.addedForagingNew = this.cfg.tier1SkillRingBoost;
-            }
-            else this.addedForagingNew = 0;
-
-            if(this.addedForagingNew != this.addedForaging)
-            {
-                Game1.player.addedForagingLevel.Value -= this.addedForaging;
-                this.addedForaging = this.addedForagingNew;
-                Game1.player.addedForagingLevel.Value += this.addedForaging;
-            }
-
-            //Mining skill
-            if(this.ringEquipped(this.RingDwarvenLuckName))
-            {
-                if(this.addedMining < this.cfg.tier3SkillRingBoost) this.addedMiningNew = this.cfg.tier3SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingCavesName))
-            {
-                if(this.addedMining < this.cfg.tier2SkillRingBoost) this.addedMiningNew = this.cfg.tier2SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingWieldyPickName))
-            {
-                if(this.addedMining == 0) this.addedMiningNew = this.cfg.tier1SkillRingBoost;
-            }
-            else this.addedMiningNew = 0;
-
-            if(this.addedMiningNew != this.addedMining)
-            {
-                Game1.player.addedMiningLevel.Value -= this.addedMining;
-                this.addedMining = this.addedMiningNew;
-                Game1.player.addedMiningLevel.Value += this.addedMining;
-            }
-
-            //Luck skill
-            if(this.ringEquipped(this.RingLoadedDieName))
-            {
-                if(this.addedLuck < this.cfg.tier3SkillRingBoost) this.addedLuckNew = this.cfg.tier3SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingTheGamblerName))
-            {
-                if(this.addedLuck < this.cfg.tier2SkillRingBoost) this.addedLuckNew = this.cfg.tier2SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingBetterOddsName))
-            {
-                if(this.addedLuck == 0) this.addedLuckNew = this.cfg.tier1SkillRingBoost;
-            }
-            else this.addedLuckNew = 0;
-
-            if(this.addedLuckNew != this.addedLuck)
-            {
-                Game1.player.addedLuckLevel.Value -= this.addedLuck;
-                this.addedLuck = this.addedLuckNew;
-                Game1.player.addedLuckLevel.Value += this.addedLuck;
-            }
-
-            //Combat skill
-            if(this.ringEquipped(this.RingWarGodName))
-            {
-                if(this.addedCombat < this.cfg.tier3SkillRingBoost) this.addedCombatNew = this.cfg.tier3SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingPureStrengthName))
-            {
-                if(this.addedCombat < this.cfg.tier2SkillRingBoost) this.addedCombatNew = this.cfg.tier2SkillRingBoost;
-            }
-            else if(this.ringEquipped(this.RingSharperBladesName))
-            {
-                if(this.addedCombat == 0) this.addedCombatNew = this.cfg.tier1SkillRingBoost;
-            }
-            else this.addedCombatNew = 0;
-
-            if(this.addedCombatNew != this.addedCombat)
-            {
-                Game1.player.addedCombatLevel.Value -= this.addedCombat;
-                Game1.player.maxHealth -= this.addedCombat * 5;
-                if(Game1.player.health > Game1.player.maxHealth)
-                    Game1.player.health = Game1.player.maxHealth;
-
-                this.addedCombat = this.addedCombatNew;
-
-                Game1.player.addedCombatLevel.Value += this.addedCombat;
-                if(Game1.player.maxHealth == Game1.player.health)
-                    Game1.player.health += this.addedCombat * 5;
-                Game1.player.maxHealth += this.addedCombat * 5;
-            }
-
-            //Experience Rings
-            this.expMult = 0.0;
-            if(this.ringEquipped(this.RingIneffableKnowledgeName))
-            {
-                this.expMult = this.cfg.tier3ExperienceRingBoost;
-            }
-            else if(this.ringEquipped(this.RingKnowledgeName))
-            {
-                this.expMult = this.cfg.tier2ExperienceRingBoost;
-            }
-            else if(this.ringEquipped(this.RingInsightName))
-            {
-                this.expMult = this.cfg.tier1ExperienceRingBoost;
-            }
-            else this.expMult = 0.0;
-
-            //Handling the gained experience
-            //The experience rings do not multiply incoming experience, but calculate the difference between now and last itteration and add a portion of the difference
-            for(int index = 0; index < 6; ++index)
-            {
-                if(Game1.player.experiencePoints[index] > this.oldExperiencePoints[index])
-                {
-                    Game1.player.gainExperience(index, (int) ((Game1.player.experiencePoints[index] - this.oldExperiencePoints[index]) * this.expMult));
-                    this.oldExperiencePoints[index] = Game1.player.experiencePoints[index];
-                }
-            }
-
-            if(this.hasCookingSkill)
-            {
-                if(Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id) > this.oldCookingExperience)
-                {
-                    
-                    Skills.AddExperience(Game1.player, this.cookingSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id) - this.oldCookingExperience)));
-                    this.oldCookingExperience = Skills.GetExperienceFor(Game1.player, this.cookingSkill.Id);
-                }
-            }
-
-            if(this.hasBlueberryCookingSkill)
-            {
-                if(this.cookingAPI.GetTotalCurrentExperience() > this.oldCookingExperience)
-                {
-                    //this.Monitor.Log(string.Format("Old EXP: {0}", this.oldCookingExperience), (LogLevel) 1);
-                    //this.Monitor.Log(string.Format("Current EXP: {0}", this.cookingAPI.GetTotalCurrentExperience()), (LogLevel) 1);
-                    //this.Monitor.Log(string.Format("Boost: {0}", this.expMult * (this.cookingAPI.GetTotalCurrentExperience() - this.oldCookingExperience)), (LogLevel) 1);
-                    //this.Monitor.Log("" + this.oldCookingExperience, (LogLevel) 1);
-                    this.cookingAPI.AddExperienceDirectly((int) (this.expMult * (this.cookingAPI.GetTotalCurrentExperience() - this.oldCookingExperience)));
-                    //this.Monitor.Log(string.Format("New EXP: {0}", this.cookingAPI.GetTotalCurrentExperience()), (LogLevel) 1);
-                    this.oldCookingExperience = this.cookingAPI.GetTotalCurrentExperience();
-                }
-            }
-
-            if(this.hasBinningSkill)
-            {
-                if(Skills.GetExperienceFor(Game1.player, this.binningSkill.Id) > this.oldBinningExperience)
-                {
-                    Skills.AddExperience(Game1.player, this.binningSkill.Id, (int) (this.expMult * (Skills.GetExperienceFor(Game1.player, this.binningSkill.Id) - this.oldBinningExperience)));
-                    this.oldBinningExperience = Skills.GetExperienceFor(Game1.player, this.binningSkill.Id);
-                }
-            }
-        }
-
-        //Handles things that a button must be pressed for
         private void onButtonPressed(object sender, ButtonPressedEventArgs e)
         {
             if(!Context.IsWorldReady)
@@ -596,11 +162,11 @@ namespace SkillRings
             if(this.Helper.Input.IsDown((SButton) 120))
             {
                 this.Monitor.Log(string.Format("Cursor At X:{0} Y:{1} \n Player at {2}", e.Cursor.GrabTile.X, e.Cursor.GrabTile.Y, Game1.currentLocation?.Name), (LogLevel) 1);
-                if(this.hasWMR)
-                {
-                    foreach(Item allRing in this.moreRings.GetAllRings(Game1.player))
-                        this.Monitor.Log("Ring: " + allRing.Name, (LogLevel) 1);
-                }
+                //if(this.hasWMR)
+                //{
+                //    foreach(Item allRing in this.moreRings.GetAllRings(Game1.player))
+                //        this.Monitor.Log("Ring: " + allRing.Name, (LogLevel) 1);
+                //}
             }
 
             //Decide whether to watch Right Click of the A button on a comtroller
@@ -620,18 +186,18 @@ namespace SkillRings
                 return;
 
             //Transform rings
-            if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingLegendaryAnglerDusty) && !Game1.player.mailReceived.Contains("legendaryAnglerRing"))
+            if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FishingRingB")
             {
                 foreach(Building building in Game1.getFarm().buildings)
                 {
-                    if(building.buildingType == "Fish Pond" && building.occupiesTile(e.Cursor.GrabTile))
+                    if(building.buildingType.Value == "Fish Pond" && building.occupiesTile(e.Cursor.GrabTile))
                     {
                         Game1.player.reduceActiveItemByOne();
-                        this.getTier3Ring(this.RingLegendaryAngler, "legendaryAnglerRing");
+                        this.getTier3Ring("AlphaMeece.SkillRings_FishingRing3");
                     }
                 }
             }
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingNaturesOracleGrassy) && !Game1.player.mailReceived.Contains("naturesOracleRing"))
+            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FarmingRingB")
             {
                 foreach(FarmAnimal allFarmAnimal in Game1.getFarm().getAllFarmAnimals())
                 {
@@ -679,11 +245,11 @@ namespace SkillRings
                     {
                         this.Helper.Input.Suppress(sbutton);
                         Game1.player.reduceActiveItemByOne();
-                        this.getTier3Ring(this.RingNaturesOracle, "naturesOracleRing");
+                        this.getTier3Ring("AlphaMeece.SkillRings_FarmingRing3");
                     }
                 }
             }
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingWarGodCursed) && !Game1.player.mailReceived.Contains("warGodRing"))
+            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_CombatRingB")
             {
                 int[,] coords = new int[4, 2]
                 {
@@ -708,9 +274,9 @@ namespace SkillRings
                     return;
                 this.Helper.Input.Suppress(sbutton);
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingWarGod, "warGodRing");
+                this.getTier3Ring("AlphaMeece.SkillRings_CombatRing3");
             }
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingNaturalBountySticky) && !Game1.player.mailReceived.Contains("naturalBountyRing"))
+            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ForagingRingB")
             {
                 int[,] coords = new int[11, 2]
                 {
@@ -763,9 +329,9 @@ namespace SkillRings
                     return;
                 this.Helper.Input.Suppress(sbutton);
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingNaturalBounty, "naturalBountyRing");
+                this.getTier3Ring("AlphaMeece.SkillRings_ForagingRing3");
             }
-            else if(Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingDwarvenLuckStone) && !Game1.player.mailReceived.Contains("dwarvenLuckRing"))
+            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_MiningRingB")
             {
                 int[,] coords;
                 if(this.hasSVE)
@@ -864,12 +430,10 @@ namespace SkillRings
                     return;
                 this.Helper.Input.Suppress(sbutton);
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring(this.RingDwarvenLuck, "dwarvenLuckRing");
+                this.getTier3Ring("AlphaMeece.SkillRings_MiningRing3");
             }
-            else
-            {
-                if(!Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, this.RingIneffableKnowledgeElusive) || Game1.player.mailReceived.Contains("ineffableKnowledgeRing"))
-                    return;
+            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ExperienceRingB")
+            { 
                 int[,] coords;
                 if(this.hasSVE)
                     coords = new int[12, 2]
@@ -955,109 +519,246 @@ namespace SkillRings
                 {
                     this.Helper.Input.Suppress(sbutton);
                     Game1.player.reduceActiveItemByOne();
-                    this.getTier3Ring(this.RingIneffableKnowledge, "ineffableKnowledgeRing");
+                    this.getTier3Ring("AlphaMeece.SkillRings_ExperienceRing3");
                 }
             }
         }
 
-        private bool checkLocations(int[,] coords, Vector2 tile)
+        private void onUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            for(int index = 0; index < coords.GetLength(0); ++index)
-            {
-                int coord1 = coords[index, 0];
-                int coord2 = coords[index, 1];
-                if(tile == new Vector2(coord1, coord2))
-                    return true;
-            }
-            return false;
-        }
+            if(!Context.IsPlayerFree || !e.IsOneSecond)
+                return;
 
-        //Recursively checks a combined ring for a specific ring
-        private bool recursiveCombinedSearch(Ring ring, string name)
-        {
-            if(ring is CombinedRing combinedRing1)
-            {
-                foreach(Ring combinedRing in combinedRing1.combinedRings)
-                {
-                    if(this.recursiveCombinedSearch(combinedRing, name))
-                        return true;
-                }
-            }
-            else if(ring.Name == name)
-                return true;
-            return false;
-        }
+            List<Buff> buffs = new List<Buff>();
 
-        private bool ringEquipped(string name)
-        {
-            //If Wear More Rings is enabled
-            if(this.hasWMR)
+            //Farming
+            Buff farmingBuff = new Buff(id: "AlphaMeece.SkillRings_FarmingBuff", duration: Buff.ENDLESS);
+            int farmingLevel = -1;
+
+            if(this.hasRing("AlphaMeece.SkillRings_FarmingRing3"))
+                farmingLevel = 5;
+            else if(this.hasRing("AlphaMeece.SkillRings_FarmingRing2"))
+                farmingLevel = 3;
+            else if(this.hasRing("AlphaMeece.SkillRings_FarmingRing1"))
+                farmingLevel = 1;
+            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_FarmingBuff"))
+                Game1.player.buffs.Remove("AlphaMeece.SkillRings_FarmingBuff");
+
+            if(farmingLevel != -1) 
             {
-                //Use the WMR Api to cycle through every ring
-                foreach(Ring allRing in this.moreRings.GetAllRings(Game1.player))
+                farmingBuff.effects.Add(new BuffEffects()
                 {
-                    //If the ring is a combined ring
-                    if(allRing is CombinedRing combinedRing4)
+                    FarmingLevel = { farmingLevel }
+                });
+                buffs.Add(farmingBuff);
+            }
+
+            //Fishing
+            Buff fishingBuff = new Buff(id: "AlphaMeece.SkillRings_FishingBuff", duration: Buff.ENDLESS);
+            int fishingLevel = -1;
+
+            if(this.hasRing("AlphaMeece.SkillRings_FishingRing3"))
+                fishingLevel = 5;
+            else if(this.hasRing("AlphaMeece.SkillRings_FishingRing2"))
+                fishingLevel = 3;
+            else if(this.hasRing("AlphaMeece.SkillRings_FishingRing1"))
+                fishingLevel = 1;
+            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_FishingBuff"))
+                Game1.player.buffs.Remove("AlphaMeece.SkillRings_FishingBuff");
+
+            if(fishingLevel != -1)
+            {
+                fishingBuff.effects.Add(new BuffEffects()
+                {
+                    FishingLevel = { fishingLevel }
+                });
+                buffs.Add(fishingBuff);
+            }
+
+            //Mining
+            Buff miningBuff = new Buff(id: "AlphaMeece.SkillRings_MiningBuff", duration: Buff.ENDLESS);
+            int miningLevel = -1;
+
+            if(this.hasRing("AlphaMeece.SkillRings_MiningRing3"))
+                miningLevel = 5;
+            else if(this.hasRing("AlphaMeece.SkillRings_MiningRing2"))
+                miningLevel = 3;
+            else if(this.hasRing("AlphaMeece.SkillRings_MiningRing1"))
+                miningLevel = 1;
+            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_MiningBuff"))
+                Game1.player.buffs.Remove("AlphaMeece.SkillRings_MiningBuff");
+
+            if(miningLevel != -1)
+            {
+                miningBuff.effects.Add(new BuffEffects()
+                {
+                    MiningLevel = { miningLevel }
+                });
+                buffs.Add(miningBuff);
+            }
+
+            //Foraging
+            Buff foragingBuff = new Buff(id: "AlphaMeece.SkillRings_ForagingBuff", duration: Buff.ENDLESS);
+            int foragingLevel = -1;
+
+            if(this.hasRing("AlphaMeece.SkillRings_ForagingRing3"))
+                foragingLevel = 5;
+            else if(this.hasRing("AlphaMeece.SkillRings_ForagingRing2"))
+                foragingLevel = 3;
+            else if(this.hasRing("AlphaMeece.SkillRings_ForagingRing1"))
+                foragingLevel = 1;
+            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_ForagingBuff"))
+                Game1.player.buffs.Remove("AlphaMeece.SkillRings_ForagingBuff");
+
+            if(foragingLevel != -1)
+            {
+                foragingBuff.effects.Add(new BuffEffects()
+                {
+                    ForagingLevel = { foragingLevel }
+                });
+                buffs.Add(foragingBuff);
+            }
+
+            //Combat
+            Buff combatBuff = new Buff(id: "AlphaMeece.SkillRings_CombatBuff", duration: Buff.ENDLESS);
+            int combatLevel = -1;
+
+            if(this.hasRing("AlphaMeece.SkillRings_CombatRing3"))
+                combatLevel = 5;
+            else if(this.hasRing("AlphaMeece.SkillRings_CombatRing2"))
+                combatLevel = 3;
+            else if(this.hasRing("AlphaMeece.SkillRings_CombatRing1"))
+                combatLevel = 1;
+            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_CombatBuff"))
+                Game1.player.buffs.Remove("AlphaMeece.SkillRings_CombatBuff");
+
+            if(combatLevel != -1)
+            {
+                combatBuff.effects.Add(new BuffEffects()
+                {
+                    CombatLevel = { combatLevel },
+                    Attack = { combatLevel * 2 },
+                    Defense = { combatLevel * 2 },
+                    Immunity = { combatLevel * 2 }
+                });
+                buffs.Add(combatBuff);
+            }
+
+            //Experience
+            Buff experienceBuff = new Buff(id: "AlphaMeece.SkillRings_ExperienceBuff", duration: Buff.ENDLESS);
+            float expLevel = -1f;
+
+            if(this.hasRing("AlphaMeece.SkillRings_ExperienceRing3"))
+                expLevel = 0.5f;
+            else if(this.hasRing("AlphaMeece.SkillRings_ExperienceRing2"))
+                expLevel = 0.2f;
+            else if(this.hasRing("AlphaMeece.SkillRings_ExperienceRing1"))
+                expLevel = 0.1f;
+            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_ExperienceBuff"))
+            {
+                Game1.player.buffs.Remove("AlphaMeece.SkillRings_ExperienceBuff");
+                this.expMultiplier = 0f;
+            }
+                
+
+            if(expLevel != -1f)
+            {
+                this.expMultiplier = expLevel;
+                buffs.Add(experienceBuff);
+            }
+
+            //Modded skills
+            //Luck
+            if(this.hasSpaceLuckSkill)
+            {
+                Buff luckBuff = new Buff(id: "AlphaMeece.SkillRings_LuckBuff", duration: Buff.ENDLESS);
+                int luckLevel = -1;
+
+                if(this.hasRing("AlphaMeece.SkillRings_LuckRing3"))
+                    luckLevel = 5;
+                else if(this.hasRing("AlphaMeece.SkillRings_LuckRing2"))
+                    luckLevel = 3;
+                else if(this.hasRing("AlphaMeece.SkillRings_LuckRing1"))
+                    luckLevel = 1;
+                else if(Game1.player.hasBuff("AlphaMeece.SkillRings_LuckBuff"))
+                    Game1.player.buffs.Remove("AlphaMeece.SkillRings_LuckBuff");
+
+                if(luckLevel != -1)
+                {
+                    luckBuff.effects.Add(new BuffEffects()
                     {
-                        //If combine many rings in enabled then search recursively
-                        if(this.hasCMR)
+                        LuckLevel = { luckLevel }
+                    });
+                    buffs.Add(luckBuff);
+                }
+            }
+
+            foreach (var item in buffs)
+            {
+                item.visible = false;
+                Game1.player.applyBuff(item);
+            }
+
+            if(Game1.player.hasBuff("AlphaMeece.SkillRings_ExperienceBuff"))
+            {
+                if(oldExperience != Game1.player.experiencePoints.ToArray())
+                {
+                    for(int skill = 0; skill < 6; skill++)
+                    {
+                        int currentExp = Game1.player.experiencePoints.ElementAt(skill);
+                        if(currentExp > oldExperience[skill])
                         {
-                            if(this.recursiveCombinedSearch(allRing, name))
-                                return true;
-                        }
-                        else
-                        {
-                            //Otherwise just check the "left" and "right" rings
-                            foreach(Item combinedRing in combinedRing4.combinedRings)
-                            {
-                                if(combinedRing.Name == name)
-                                    return true;
-                            }
+                            Game1.player.gainExperience(skill, (int) Math.Ceiling((currentExp - oldExperience[skill]) * this.expMultiplier));
+                            this.Monitor.Log($"Gained experience from experience ring\nCurrent Multiplier:{1 + this.expMultiplier}\nExp Change:{currentExp} - {oldExperience[skill]} = {currentExp - oldExperience[skill]}\nGained Experience: {Math.Ceiling((currentExp - oldExperience[skill]) * this.expMultiplier)}\nNew Total: {Game1.player.experiencePoints.ElementAt(skill)}", LogLevel.Debug);
+                            oldExperience[skill] = Game1.player.experiencePoints.ElementAt(skill);
                         }
                     }
-                    else if(allRing.Name == name)
-                        return true;
                 }
-                return false;
             }
-
-            //If Combine Many Rings is enabled without WMR
-            if(this.hasCMR)
-            {
-                //Check the left and right rings for them being a combined ring
-                if(Game1.player.leftRing.Value is CombinedRing combinedRing8)
-                {
-                    if(this.recursiveCombinedSearch(combinedRing8, name))
-                        return true;
-                }
-                else if(Game1.player.rightRing.Value is CombinedRing combinedRing9 && this.recursiveCombinedSearch(combinedRing9, name))
-                    return true;
-            }
-            
-            //Otherwise return the most disgusting "one line" conditional known to man
-            return (Game1.player.leftRing.Value != null &&                          //If a left ring is worn
-                        Game1.player.leftRing.Value.Name == name) ||           //And if said left ring is the ring we're looking for return true
-                   (Game1.player.rightRing.Value != null &&                         //If a right ring is worn
-                        Game1.player.rightRing.Value.Name == name) ||          //And if said right ring is the ring we're looking for return true
-                   (Game1.player.leftRing.Value is CombinedRing combinedRing10 &&   //If the left ring is a combined ring
-                        (combinedRing10.combinedRings[0].Name == name ||                //If the internal "Left Ring" is the ring we're looking for or
-                            combinedRing10.combinedRings[1].Name == name)) ||           //If the internal "Right Ring" is the ring we're looking for return true
-                   (Game1.player.rightRing.Value is CombinedRing combinedRing11 &&  //If the right ring is a combined ring
-                        (combinedRing11.combinedRings[0].Name == name ||                //If the internal "Left Ring" is the ring we're looking for or
-                            combinedRing11.combinedRings[1].Name == name));             //If the internal "Right Ring" is the ring we're looking for return true
         }
 
-        //Handle the giving and animation for recieving a Tier 3 ring
-        //I could not say exactly what this does, I pretty much copy pasted from the code for recieving the Galaxy Sword
-        private void getTier3Ring(int id, string mailName)
+        private bool hasRing(string Id)
         {
-            Game1.flashAlpha = 1.0F;
-            Game1.player.holdUpItemThenMessage(new StardewValley.Object(id, 1, false, -1, 0), true);
-            if(!Game1.player.addItemToInventoryBool(new StardewValley.Object(id, 1, false, -1, 0), false))
-                Game1.createItemDebris(new StardewValley.Object(id, 1, false, -1, 0), Game1.player.getStandingPosition(), 1, null, -1);
-            Game1.player.mailReceived.Add(mailName);
-            Game1.player.jitterStrength = 0.0F;
-            Game1.screenGlowHold = false;
+            return Game1.player.isWearingRing(Id);
+        }
+
+        private void handleMail()
+        {
+            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_DustyRing"))
+            {
+                if(Game1.player.getFriendshipHeartLevelForNPC("Willy") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_DustyRing");
+            }
+
+            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_StoneRing"))
+            {
+                if(Game1.player.getFriendshipHeartLevelForNPC("Dwarf") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_StoneRing");
+            }
+
+            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_StickyRing"))
+            {
+                if(Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_StickyRing");
+            }
+
+            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_GrassyRing"))
+            {
+                if(Game1.player.getFriendshipHeartLevelForNPC("Marnie") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_GrassyRing");
+            }
+
+            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_CursedRing"))
+            {
+                if(Game1.player.getFriendshipHeartLevelForNPC("Abigail") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_CursedRing");
+            }
+
+            //Recipes
+            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_Foraging1Recipe"))
+            {
+                if(Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 1) Game1.player.mailbox.Add("AlphaMeece.SkillRings_Foraging1Recipe");
+            }
+
+            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_Foraging2Recipe"))
+            {
+                if(Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 2) Game1.player.mailbox.Add("AlphaMeece.SkillRings_Foraging2Recipe");
+            }
         }
     }
 }

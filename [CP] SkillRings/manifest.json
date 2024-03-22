@@ -1,0 +1,12 @@
+{
+	"Name": "New Items for Skill Rings",
+	"Author": "AlphaMeece",
+	"Description": "Adds items for Skill Rings.",
+	"Version": "1.0.0",
+	"UniqueID": "AlphaMeece.CP.SkillRings",
+	"UpdateKeys": [],
+	"MinimumApiVersion": "4.0.0",
+	"ContentPackFor": {
+		"UniqueID": "Pathoschild.ContentPatcher"
+	}
+}

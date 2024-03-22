@@ -1,0 +1,12 @@
+{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/CraftingRecipes",
+            "Entries": {
+                "AlphaMeece.SkillRings_Foraging1Recipe": "334 10 330 5/Home/AlphaMeece.SkillRings_ForagingRing1/Ring/null/{{i18n:Recipe_RingofDeepRoots}}",
+                "AlphaMeece.SkillRings_Foraging2Recipe": "335 10 340 3/Home/AlphaMeece.SkillRings_ForagingRing2/Ring/null/{{i18n:Recipe_RingoftheGatherer}}"
+            }
+        }
+    ]
+}

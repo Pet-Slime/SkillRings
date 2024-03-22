@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "3iGPNl1Aar+wdElRLa9PGI79ttj1B4PQYj9NQ2RmDTpxxs4aO7T31UpgC+Jg51rD2cbsGSHY465qaKQlAXVVYQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Daemon\\source\\repos\\SkillRings\\SkillRings\\SkillRings.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Daemon\\.nuget\\packages\\pathoschild.stardew.modbuildconfig\\4.1.1\\pathoschild.stardew.modbuildconfig.4.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}

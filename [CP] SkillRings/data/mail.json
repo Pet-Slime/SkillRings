@@ -1,0 +1,18 @@
+{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Mail",
+            "Entries": {
+                "AlphaMeece.SkillRings_DustyRing": "{{i18n:Mail_DustyRingDescription}} %item object AlphaMeece.SkillRings_FishingRingB 1 %%[#]{{i18n:Mail_DustyRingTitle}}",
+                "AlphaMeece.SkillRings_StoneRing": "{{i18n:Mail_StoneRingDescription}} %item object AlphaMeece.SkillRings_MiningRingB 1 %%[#]{{i18n:Mail_StoneRingTitle}}",
+                "AlphaMeece.SkillRings_StickyRing": "{{i18n:Mail_StickyRingDescription}} %item object AlphaMeece.SkillRings_ForagingRingB 1 %%[#]{{i18n:Mail_StickyRingTitle}}",
+                "AlphaMeece.SkillRings_GrassyRing": "{{i18n:Mail_GrassyRingDescription}} %item object AlphaMeece.SkillRings_FarmingRingB 1 %%[#]{{i18n:Mail_GrassyRingTitle}}",
+                "AlphaMeece.SkillRings_CursedRing": "{{i18n:Mail_CursedRingDescription}} %item object AlphaMeece.SkillRings_CombatRingB 1 %%[#]{{i18n:Mail_CursedRingTitle}}",
+
+                "AlphaMeece.SkillRings_Foraging1Recipe": "{{i18n:Mail_Foraging1RecipeDescription}} %item craftingRecipe AlphaMeece.SkillRings_Foraging1Recipe %%[#]{{i18n:Mail_Foraging1RecipeTitle}}",
+                "AlphaMeece.SkillRings_Foraging2Recipe": "{{i18n:Mail_Foraging2RecipeDescription}} %item craftingRecipe AlphaMeece.SkillRings_Foraging2Recipe %%[#]{{i18n:Mail_Foraging2RecipeTitle}}"
+            }
+        }
+    ]
+}
