@@ -6,18 +6,18 @@
             "Target": "Data/Shops",
             "TargetField": [ "AdventureShop", "Items" ],
             "Entries": {
-                "AlphaMeece.SkillRings_CombatRing1": {
-                    "Id": "AlphaMeece.SkillRings_CombatRing1",
-                    "ItemId": "AlphaMeece.SkillRings_CombatRing1",
-                    "Price": "{{Tier1RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_CombatRing2": {
-                    "Id": "AlphaMeece.SkillRings_CombatRing2",
-                    "ItemId": "AlphaMeece.SkillRings_CombatRing2",
-                    "Price": "{{Tier2RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_CombatRing1": {
+                "Id": "AlphaMeece.SkillRings_CombatRing1",
+                "ItemId": "AlphaMeece.SkillRings_CombatRing1",
+                "Price": "{{AlphaMeece.SkillRings/TierOneRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_CombatRing2": {
+                "Id": "AlphaMeece.SkillRings_CombatRing2",
+                "ItemId": "AlphaMeece.SkillRings_CombatRing2",
+                "Price": "{{AlphaMeece.SkillRings/TierTwoRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         {
@@ -28,12 +28,12 @@
                 "HasFlag": "AlphaMeece.SkillRings_CursedRing"
             },
             "Entries": {
-                "AlphaMeece.SkillRings_CombatRingB": {
-                    "Id": "AlphaMeece.SkillRings_CombatRingB",
-                    "ItemId": "AlphaMeece.SkillRings_CombatRingB",
-                    "Price": "{{Tier3RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_CombatRingB": {
+                "Id": "AlphaMeece.SkillRings_CombatRingB",
+                "ItemId": "AlphaMeece.SkillRings_CombatRingB",
+                "Price": "{{AlphaMeece.SkillRings/TierThreeRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         //Farming Rings
@@ -42,18 +42,18 @@
             "Target": "Data/Shops",
             "TargetField": [ "AnimalShop", "Items" ],
             "Entries": {
-                "AlphaMeece.SkillRings_FarmingRing1": {
-                    "Id": "AlphaMeece.SkillRings_FarmingRing1",
-                    "ItemId": "AlphaMeece.SkillRings_FarmingRing1",
-                    "Price": "{{Tier1RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_FarmingRing2": {
-                    "Id": "AlphaMeece.SkillRings_FarmingRing2",
-                    "ItemId": "AlphaMeece.SkillRings_FarmingRing2",
-                    "Price": "{{Tier2RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_FarmingRing1": {
+                "Id": "AlphaMeece.SkillRings_FarmingRing1",
+                "ItemId": "AlphaMeece.SkillRings_FarmingRing1",
+                "Price": "{{AlphaMeece.SkillRings/TierOneRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_FarmingRing2": {
+                "Id": "AlphaMeece.SkillRings_FarmingRing2",
+                "ItemId": "AlphaMeece.SkillRings_FarmingRing2",
+                "Price": "{{AlphaMeece.SkillRings/TierTwoRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         {
@@ -64,12 +64,12 @@
                 "HasFlag": "AlphaMeece.SkillRings_GrassyRing"
             },
             "Entries": {
-                "AlphaMeece.SkillRings_CombatRingB": {
-                    "Id": "AlphaMeece.SkillRings_FarmingRingB",
-                    "ItemId": "AlphaMeece.SkillRings_FarmingRingB",
-                    "Price": "{{Tier3RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_CombatRingB": {
+                "Id": "AlphaMeece.SkillRings_FarmingRingB",
+                "ItemId": "AlphaMeece.SkillRings_FarmingRingB",
+                "Price": "{{AlphaMeece.SkillRings/TierThreeRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         //Mining Rings
@@ -78,18 +78,18 @@
             "Target": "Data/Shops",
             "TargetField": [ "Dwarf", "Items" ],
             "Entries": {
-                "AlphaMeece.SkillRings_MiningRing1": {
-                    "Id": "AlphaMeece.SkillRings_MiningRing1",
-                    "ItemId": "AlphaMeece.SkillRings_MiningRing1",
-                    "Price": "{{Tier1RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_MiningRing2": {
-                    "Id": "AlphaMeece.SkillRings_MiningRing2",
-                    "ItemId": "AlphaMeece.SkillRings_MiningRing2",
-                    "Price": "{{Tier2RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_MiningRing1": {
+                "Id": "AlphaMeece.SkillRings_MiningRing1",
+                "ItemId": "AlphaMeece.SkillRings_MiningRing1",
+                "Price": "{{AlphaMeece.SkillRings/TierOneRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_MiningRing2": {
+                "Id": "AlphaMeece.SkillRings_MiningRing2",
+                "ItemId": "AlphaMeece.SkillRings_MiningRing2",
+                "Price": "{{AlphaMeece.SkillRings/TierTwoRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         {
@@ -100,12 +100,12 @@
                 "HasFlag": "AlphaMeece.SkillRings_StoneRing"
             },
             "Entries": {
-                "AlphaMeece.SkillRings_CombatRingB": {
-                    "Id": "AlphaMeece.SkillRings_MiningRingB",
-                    "ItemId": "AlphaMeece.SkillRings_MiningRingB",
-                    "Price": "{{Tier3RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_CombatRingB": {
+                "Id": "AlphaMeece.SkillRings_MiningRingB",
+                "ItemId": "AlphaMeece.SkillRings_MiningRingB",
+                "Price": "{{AlphaMeece.SkillRings/TierThreeRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         //Fishing Rings
@@ -114,18 +114,18 @@
             "Target": "Data/Shops",
             "TargetField": [ "FishShop", "Items" ],
             "Entries": {
-                "AlphaMeece.SkillRings_FishingRing1": {
-                    "Id": "AlphaMeece.SkillRings_FishingRing1",
-                    "ItemId": "AlphaMeece.SkillRings_FishingRing1",
-                    "Price": "{{Tier1RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_FishingRing2": {
-                    "Id": "AlphaMeece.SkillRings_FishingRing2",
-                    "ItemId": "AlphaMeece.SkillRings_FishingRing2",
-                    "Price": "{{Tier2RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_FishingRing1": {
+                "Id": "AlphaMeece.SkillRings_FishingRing1",
+                "ItemId": "AlphaMeece.SkillRings_FishingRing1",
+                "Price": "{{AlphaMeece.SkillRings/TierOneRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_FishingRing2": {
+                "Id": "AlphaMeece.SkillRings_FishingRing2",
+                "ItemId": "AlphaMeece.SkillRings_FishingRing2",
+                "Price": "{{AlphaMeece.SkillRings/TierTwoRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         {
@@ -136,12 +136,12 @@
                 "HasFlag": "AlphaMeece.SkillRings_DustyRing"
             },
             "Entries": {
-                "AlphaMeece.SkillRings_CombatRingB": {
-                    "Id": "AlphaMeece.SkillRings_FishingRingB",
-                    "ItemId": "AlphaMeece.SkillRings_FishingRingB",
-                    "Price": "{{Tier3RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_CombatRingB": {
+                "Id": "AlphaMeece.SkillRings_FishingRingB",
+                "ItemId": "AlphaMeece.SkillRings_FishingRingB",
+                "Price": "{{AlphaMeece.SkillRings/TierThreeRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
         //Experience Rings
@@ -150,24 +150,24 @@
             "Target": "Data/Shops",
             "TargetField": [ "Sandy", "Items" ],
             "Entries": {
-                "AlphaMeece.SkillRings_ExperienceRing1": {
-                    "Id": "AlphaMeece.SkillRings_ExperienceRing1",
-                    "ItemId": "AlphaMeece.SkillRings_ExperienceRing1",
-                    "Price": "{{Tier1RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_ExperienceRing2": {
-                    "Id": "AlphaMeece.SkillRings_ExperienceRing2",
-                    "ItemId": "AlphaMeece.SkillRings_ExperienceRing2",
-                    "Price": "{{Tier2RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_ExperienceRingB": {
-                    "Id": "AlphaMeece.SkillRings_ExperienceRingB",
-                    "ItemId": "AlphaMeece.SkillRings_ExperienceRingB",
-                    "Price": "{{Tier3RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_ExperienceRing1": {
+                "Id": "AlphaMeece.SkillRings_ExperienceRing1",
+                "ItemId": "AlphaMeece.SkillRings_ExperienceRing1",
+                "Price": "{{AlphaMeece.SkillRings/TierOneRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_ExperienceRing2": {
+                "Id": "AlphaMeece.SkillRings_ExperienceRing2",
+                "ItemId": "AlphaMeece.SkillRings_ExperienceRing2",
+                "Price": "{{AlphaMeece.SkillRings/TierTwoRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_ExperienceRingB": {
+                "Id": "AlphaMeece.SkillRings_ExperienceRingB",
+                "ItemId": "AlphaMeece.SkillRings_ExperienceRingB",
+                "Price": "{{AlphaMeece.SkillRings/TierThreeRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         },
 
@@ -180,24 +180,24 @@
             },
             "TargetField": [ "ShadowShop", "Items" ],
             "Entries": {
-                "AlphaMeece.SkillRings_LuckRing1": {
-                    "Id": "AlphaMeece.SkillRings_LuckRing1",
-                    "ItemId": "AlphaMeece.SkillRings_LuckRing1",
-                    "Price": "{{Tier1RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_LuckRing2": {
-                    "Id": "AlphaMeece.SkillRings_LuckRing2",
-                    "ItemId": "AlphaMeece.SkillRings_LuckRing2",
-                    "Price": "{{Tier2RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                },
-                "AlphaMeece.SkillRings_LuckRing3": {
-                    "Id": "AlphaMeece.SkillRings_LuckRing3",
-                    "ItemId": "AlphaMeece.SkillRings_LuckRing3",
-                    "Price": "{{Tier3RingPrice}}",
-                    "IgnoreShopPriceModifiers": true
-                }
+              "AlphaMeece.SkillRings_LuckRing1": {
+                "Id": "AlphaMeece.SkillRings_LuckRing1",
+                "ItemId": "AlphaMeece.SkillRings_LuckRing1",
+                "Price": "{{AlphaMeece.SkillRings/TierOneRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_LuckRing2": {
+                "Id": "AlphaMeece.SkillRings_LuckRing2",
+                "ItemId": "AlphaMeece.SkillRings_LuckRing2",
+                "Price": "{{AlphaMeece.SkillRings/TierTwoRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              },
+              "AlphaMeece.SkillRings_LuckRing3": {
+                "Id": "AlphaMeece.SkillRings_LuckRing3",
+                "ItemId": "AlphaMeece.SkillRings_LuckRing3",
+                "Price": "{{AlphaMeece.SkillRings/TierThreeRingPrice}}",
+                "IgnoreShopPriceModifiers": true
+              }
             }
         }
     ]

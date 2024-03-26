@@ -9,6 +9,7 @@
       "SkillRings/1.0.0": {
         "dependencies": {
           "Pathoschild.Stardew.ModBuildConfig": "4.1.1",
+          "ContentPatcher": "2.0.0.0",
           "SpaceCore": "1.18.0.0"
         },
         "runtime": {
@@ -16,6 +17,14 @@
         }
       },
       "Pathoschild.Stardew.ModBuildConfig/4.1.1": {},
+      "ContentPatcher/2.0.0.0": {
+        "runtime": {
+          "ContentPatcher.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
       "SpaceCore/1.18.0.0": {
         "runtime": {
           "SpaceCore.dll": {
@@ -38,6 +47,11 @@
       "sha512": "sha512-iLEtUWuj+vFTa0HNJmOm0yMIx5ZnED3WHxM1groLUUcFQWV63IMyF5lSQ9d0dteFu7t2dbl/scLwHBdjk0d7AA==",
       "path": "pathoschild.stardew.modbuildconfig/4.1.1",
       "hashPath": "pathoschild.stardew.modbuildconfig.4.1.1.nupkg.sha512"
+    },
+    "ContentPatcher/2.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     },
     "SpaceCore/1.18.0.0": {
       "type": "reference",

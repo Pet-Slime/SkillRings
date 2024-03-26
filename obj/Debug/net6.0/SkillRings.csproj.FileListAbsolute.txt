@@ -9,3 +9,4 @@ C:\Users\Daemon\source\repos\SkillRings\SkillRings\bin\Debug\net6.0\SkillRings.d
 C:\Users\Daemon\source\repos\SkillRings\SkillRings\bin\Debug\net6.0\SpaceCore.dll
 C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.csproj.Up2Date
 C:\Users\Daemon\source\repos\SkillRings\SkillRings\obj\Debug\net6.0\SkillRings.dll
+C:\Users\Daemon\source\repos\SkillRings\SkillRings\bin\Debug\net6.0\ContentPatcher.dll
