@@ -1,0 +1,17 @@
+{
+    "Name": "New Items for Gluttony Ring",
+    "Author": "AlphaMeece",
+    "Description": "Adds items for Gluttony Ring.",
+    "Version": "1.0.0",
+    "UniqueID": "AlphaMeece.CP.GluttonyRing",
+    //"UpdateKeys": [ "Nexus:7515" ],
+    "MinimumApiVersion": "4.0.0",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "Dependencies": [
+        {
+            "UniqueId": "AlphaMeece.GluttonyRing"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "Name": "Gluttony Ring",
+    "Author": "AlphaMeece",
+    "Version": "1.0.0",
+    "Description": "Adds a ring that grows as you feed it, giving you permanent food buffs",
+    "UniqueID": "AlphaMeece.GluttonyRing",
+    "EntryDll": "GluttonyRing.dll",
+    "MinimumApiVersion": "4.0.0",
+    "Dependencies": [
+        { "UniqueID": "Pathoschild.ContentPatcher" }
+    ],
+    //"UpdateKeys": [ "Nexus:7515" ]
+}

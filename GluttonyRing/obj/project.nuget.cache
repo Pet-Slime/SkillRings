@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nLpjHmWyobdeSIiMp+8NrlTN01ypx2h0mM0DLAeUzPiHbu9fdB+YJtKTUp1w8exxtf3saAx7+g4eypYtpxYgrQ==",
+  "dgSpecHash": "fQZyBRY65cRoIO1fiapW4AnGxTKNJmdCCS+ZrZLNO/L4nwvYCacMaV5/FH0gq3JnM+idelPTGsxcruNrygwF6Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\aslpl\\Desktop\\StardewMods\\SkillRings\\SkillRings.csproj",
+  "projectFilePath": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\GluttonyRing.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aslpl\\.nuget\\packages\\pathoschild.stardew.modbuildconfig\\4.1.1\\pathoschild.stardew.modbuildconfig.4.1.1.nupkg.sha512"
   ],

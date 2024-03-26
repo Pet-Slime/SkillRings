@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillRings", "SkillRings\SkillRings.csproj", "{31E3E099-8233-457A-8ABA-7BEEEF35D22E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GluttonyRing", "GluttonyRing\GluttonyRing.csproj", "{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31E3E099-8233-457A-8ABA-7BEEEF35D22E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E3E099-8233-457A-8ABA-7BEEEF35D22E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E3E099-8233-457A-8ABA-7BEEEF35D22E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E3E099-8233-457A-8ABA-7BEEEF35D22E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B765CA2-3284-4468-B713-5595A2D7E013}
+	EndGlobalSection
+EndGlobal

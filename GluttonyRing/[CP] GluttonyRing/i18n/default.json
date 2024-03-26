@@ -1,0 +1,14 @@
+{
+    "PeckishRing_Name": "Peckish Ring",
+    "PeckishRing_Description": "A ring that feels... empty. Maybe you should feed it?",
+    "HungryRing_Name": "Hungry Ring",
+    "HungryRing_Description": "It's evolved, and so has its hunger, you can feel it now. It wants more, and it's willing to reward you...",
+    "StarvingRing_Name": "Starving Ring",
+    "StarvingRing_Description": "You've kept feeding it, but it's not enough and its hunger yet rages. With more food, comes more power...",
+    "RavenousRing_Name": "Ravenous Ring",
+    "RavenousRing_Description": "More, it needs more, any new food you can get ahold of, sacrifice it to the ring. As its strength grows, so does your own.",
+    "GluttonyRing_Name": "Ring of Gluttony",
+    "GluttonyRing_Description": "You've fed it all you can think of but its hunger still burns within you, is there truly nothing else to give?",
+    "GluttonyRingTrue_Name": "Ring of Temperance",
+    "GluttonyRingTrue_Description": "Having eaten all there is, it seems... full. Its warmth fills you, and there's no more it can give you."
+}

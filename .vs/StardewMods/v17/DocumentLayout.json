@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\aslpl\\Desktop\\StardewMods\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|c:\\users\\aslpl\\desktop\\stardewmods\\gluttonyring\\[cp] gluttonyring\\i18n\\default.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|solutionrelative:gluttonyring\\[cp] gluttonyring\\i18n\\default.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|c:\\users\\aslpl\\desktop\\stardewmods\\gluttonyring\\modentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|solutionrelative:gluttonyring\\modentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "default.json",
+              "DocumentMoniker": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "RelativeDocumentMoniker": "GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "ToolTip": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "RelativeToolTip": "GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-03-26T17:24:33.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ModEntry.cs",
+              "DocumentMoniker": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\ModEntry.cs",
+              "RelativeDocumentMoniker": "GluttonyRing\\ModEntry.cs",
+              "ToolTip": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\ModEntry.cs",
+              "RelativeToolTip": "GluttonyRing\\ModEntry.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-26T17:14:46.97Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
