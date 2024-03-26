@@ -43,11 +43,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Daemon\\source\\repos\\StardewMods\\StardewMods\\StardewMods.csproj",
-      "projectName": "StardewMods",
-      "projectPath": "C:\\Users\\Daemon\\source\\repos\\StardewMods\\StardewMods\\StardewMods.csproj",
+      "projectUniqueName": "C:\\Users\\Daemon\\source\\repos\\StardewMods\\StardewMods\\SkillRings\\SkillRings.csproj",
+      "projectName": "SkillRings",
+      "projectPath": "C:\\Users\\Daemon\\source\\repos\\StardewMods\\StardewMods\\SkillRings\\SkillRings.csproj",
       "packagesPath": "C:\\Users\\Daemon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Daemon\\source\\repos\\StardewMods\\StardewMods\\obj\\",
+      "outputPath": "C:\\Users\\Daemon\\source\\repos\\StardewMods\\StardewMods\\SkillRings\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

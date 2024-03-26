@@ -1,0 +1,36 @@
+{
+    "Format": "2.0.0",
+    "Changes": [
+        //Load spritesheet
+        {
+            "Action": "Load",
+            "Target": "AlphaMeece.SkillRings/Objects",
+            "FromFile": "assets/{{TargetWithoutPath}}.png"
+        },
+        //Add the rings
+        {
+            "Action": "Include",
+            "FromFile": "data/objects.json"
+        },
+        //Add shops
+        {
+            "Action": "Include",
+            "FromFile": "data/shops.json"
+        },
+        //Add Crafting Recipes
+        {
+            "Action": "Include",
+            "FromFile": "data/craftingrecipes.json"
+        },
+        //Add Mail
+        {
+            "Action": "Include",
+            "FromFile": "data/mail.json"
+        }
+        //Add buffs
+        // {
+        //     "Action": "Include",
+        //     "FromFile": "data/buffs.json"
+        // }
+    ]
+}

@@ -21,3 +21,4 @@ packages.config
 Properties/AssemblyInfo.cs
 SkillRings.csproj
 SpaceCore.dll
+ContentPatcher.dll

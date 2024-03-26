@@ -1,0 +1,247 @@
+{
+    "AlphaMeece.SkillRings_FishingBuff1": {
+        "DisplayName": "{{i18n:FishingRing1_Name}}",
+        "Description": "{{i18n:FishingRing1_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 1,
+        "Effects": {
+            "FishingLevel": 1.0
+        }
+    },
+    "AlphaMeece.SkillRings_FishingBuff2": {
+        "DisplayName": "{{i18n:FishingRing2_Name}}",
+        "Description": "{{i18n:FishingRing2_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 1,
+        "Effects": {
+            "FishingLevel": 2.0
+        }
+    },
+    "AlphaMeece.SkillRings_FishingBuff3": {
+        "DisplayName": "{{i18n:FishingRing3_Name}}",
+        "Description": "{{i18n:FishingRing3_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 1,
+        "Effects": {
+            "FishingLevel": 5.0
+        }
+    },
+    "AlphaMeece.SkillRings_FarmingBuff1": {
+        "DisplayName": "{{i18n:FarmingRing1_Name}}",
+        "Description": "{{i18n:FarmingRing1_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 0,
+        "Effects": {
+            "FarmingLevel": 1.0
+        }
+    },
+    "AlphaMeece.SkillRings_FarmingBuff2": {
+        "DisplayName": "{{i18n:FarmingRing2_Name}}",
+        "Description": "{{i18n:FarmingRing2_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 0,
+        "Effects": {
+            "FarmingLevel": 2.0
+        }
+    },
+    "AlphaMeece.SkillRings_FarmingBuff3": {
+        "DisplayName": "{{i18n:FarmingRing3_Name}}",
+        "Description": "{{i18n:FarmingRing3_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 0,
+        "Effects": {
+            "FarmingLevel": 5.0
+        }
+    },
+    "AlphaMeece.SkillRings_MiningBuff1": {
+        "DisplayName": "{{i18n:MiningRing1_Name}}",
+        "Description": "{{i18n:MiningRing1_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 2,
+        "Effects": {
+            "MiningLevel": 1.0
+        }
+    },
+    "AlphaMeece.SkillRings_MiningBuff2": {
+        "DisplayName": "{{i18n:MiningRing2_Name}}",
+        "Description": "{{i18n:MiningRing2_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 2,
+        "Effects": {
+            "MiningLevel": 2.0
+        }
+    },
+    "AlphaMeece.SkillRings_MiningBuff3": {
+        "DisplayName": "{{i18n:MiningRing3_Name}}",
+        "Description": "{{i18n:MiningRing3_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 2,
+        "Effects": {
+            "MiningLevel": 5.0
+        }
+    },
+    "AlphaMeece.SkillRings_ForagingBuff1": {
+        "DisplayName": "{{i18n:ForagingRing1_Name}}",
+        "Description": "{{i18n:ForagingRing1_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 5,
+        "Effects": {
+            "ForagingLevel": 1.0
+        }
+    },
+    "AlphaMeece.SkillRings_ForagingBuff2": {
+        "DisplayName": "{{i18n:ForagingRing2_Name}}",
+        "Description": "{{i18n:ForagingRing2_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 5,
+        "Effects": {
+            "ForagingLevel": 2.0
+        }
+    },
+    "AlphaMeece.SkillRings_ForagingBuff3": {
+        "DisplayName": "{{i18n:ForagingRing3_Name}}",
+        "Description": "{{i18n:ForagingRing3_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 5,
+        "Effects": {
+            "ForagingLevel": 5.0
+        }
+    },
+    "AlphaMeece.SkillRings_CombatBuff1": {
+        "DisplayName": "{{i18n:CombatRing1_Name}}",
+        "Description": "{{i18n:CombatRing1_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 20,
+        "Effects": {
+            "CombatLevel": 1.0
+        }
+    },
+    "AlphaMeece.SkillRings_CombatBuff2": {
+        "DisplayName": "{{i18n:CombatRing2_Name}}",
+        "Description": "{{i18n:CombatRing2_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 20,
+        "Effects": {
+            "CombatLevel": 2.0
+        }
+    },
+    "AlphaMeece.SkillRings_CombatBuff3": {
+        "DisplayName": "{{i18n:CombatRing3_Name}}",
+        "Description": "{{i18n:CombatRing3_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 20,
+        "Effects": {
+            "CombatLevel": 5.0
+        }
+    },
+    "AlphaMeece.SkillRings_ExperienceBuff1": {
+        "DisplayName": "{{i18n:ExperienceRing1_Name}}",
+        "Description": "{{i18n:ExperienceRing1_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 16
+    },
+    "AlphaMeece.SkillRings_ExperienceBuff2": {
+        "DisplayName": "{{i18n:ExperienceRing2_Name}}",
+        "Description": "{{i18n:ExperienceRing2_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 16
+    },
+    "AlphaMeece.SkillRings_ExperienceBuff3": {
+        "DisplayName": "{{i18n:ExperienceRing3_Name}}",
+        "Description": "{{i18n:ExperienceRing3_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 16
+    },
+
+    //Modded Skills
+    "AlphaMeece.SkillRings_LuckBuff1": {
+        "DisplayName": "{{i18n:LuckRing1_Name}}",
+        "Description": "{{i18n:LuckRing1_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 4,
+        "Effects": {
+            "LuckLevel": 1.0
+        }
+    },
+    "AlphaMeece.SkillRings_LuckBuff2": {
+        "DisplayName": "{{i18n:LuckRing2_Name}}",
+        "Description": "{{i18n:LuckRing2_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 4,
+        "Effects": {
+            "LuckLevel": 2.0
+        }
+    },
+    "AlphaMeece.SkillRings_LuckBuff3": {
+        "DisplayName": "{{i18n:LuckRing3_Name}}",
+        "Description": "{{i18n:LuckRing3_Description}}",
+        "IsDebuff": false,
+        "Duration": -2,
+        "MaxDuration": -1,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": 4,
+        "Effects": {
+            "LuckLevel": 5.0
+        }
+    }
+}

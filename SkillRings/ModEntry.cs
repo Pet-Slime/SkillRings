@@ -28,37 +28,37 @@ namespace SkillRings
 
         public override void Entry(IModHelper helper)
         {
-            helper.Events.GameLoop.GameLaunched += new EventHandler<GameLaunchedEventArgs>(this.onGameLaunched);
-            helper.Events.GameLoop.UpdateTicked += new EventHandler<UpdateTickedEventArgs>(this.onUpdateTicked);
-            helper.Events.GameLoop.DayStarted += new EventHandler<DayStartedEventArgs>(this.onDayStarted);
-            helper.Events.Input.ButtonPressed += new EventHandler<ButtonPressedEventArgs>(this.onButtonPressed);
+            helper.Events.GameLoop.GameLaunched += new EventHandler<GameLaunchedEventArgs>(onGameLaunched);
+            helper.Events.GameLoop.UpdateTicked += new EventHandler<UpdateTickedEventArgs>(onUpdateTicked);
+            helper.Events.GameLoop.DayStarted += new EventHandler<DayStartedEventArgs>(onDayStarted);
+            helper.Events.Input.ButtonPressed += new EventHandler<ButtonPressedEventArgs>(onButtonPressed);
 
             //Adding console commands to the game
             //Fixes the health of the player if it was messed up by the mod
-            helper.ConsoleCommands.Add("fixhealth", "Changes max health to what it should be, take off combat rings and don't have combat buffs on\n\nUsage: fixhealth", new Action<string, string[]>(this.fixHealth));
+            helper.ConsoleCommands.Add("fixhealth", "Changes max health to what it should be, take off combat rings and don't have combat buffs on\n\nUsage: fixhealth", new Action<string, string[]>(fixHealth));
             //Converts the held broken ring into its fixed tier 3 equivalent
-            helper.ConsoleCommands.Add("fixring", "Fixes the currently held broken ring, converting it to its tier 3 equivalent", new Action<string, string[]>(this.fixRing));
+            helper.ConsoleCommands.Add("fixring", "Fixes the currently held broken ring, converting it to its tier 3 equivalent", new Action<string, string[]>(fixRing));
             //Load the config file
-            this.cfg = helper.ReadConfig<ModConfig>();
+            cfg = helper.ReadConfig<ModConfig>();
         }
 
         private void fixHealth(string command, string[] args)
         {
             int skillLevel = Game1.player.GetSkillLevel(4);
             int num = 100;
-            for(int index = 0; index < skillLevel; ++index)
+            for (int index = 0; index < skillLevel; ++index)
             {
-                switch(index)
+                switch (index)
                 {
                     case 4:
-                        if(Game1.player.professions.Contains(24))
+                        if (Game1.player.professions.Contains(24))
                         {
                             num += 15;
                             break;
                         }
                         break;
                     case 9:
-                        if(Game1.player.professions.Contains(27))
+                        if (Game1.player.professions.Contains(27))
                         {
                             num += 25;
                             break;
@@ -69,7 +69,7 @@ namespace SkillRings
                         break;
                 }
             }
-            if(Game1.player.mailReceived.Contains("qiCave"))
+            if (Game1.player.mailReceived.Contains("qiCave"))
                 num += 25;
             Game1.player.maxHealth = num;
             Game1.player.health = num;
@@ -77,46 +77,46 @@ namespace SkillRings
 
         private void fixRing(string command, string[] args)
         {
-            if(Game1.player.ActiveItem == null) return;
-            if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FishingRingB")
+            if (Game1.player.ActiveItem == null) return;
+            if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FishingRingB")
             {
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_FishingRing3");
-                this.Monitor.Log("Got the Ring of the Legendary Angler.", (LogLevel) 1);
+                getTier3Ring("AlphaMeece.SkillRings_FishingRing3");
+                Monitor.Log("Got the Ring of the Legendary Angler.", (LogLevel)1);
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FarmingRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FarmingRingB")
             {
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_FarmingRing3");
-                this.Monitor.Log("Got the Ring of Nature's Oracle.", (LogLevel) 1);
+                getTier3Ring("AlphaMeece.SkillRings_FarmingRing3");
+                Monitor.Log("Got the Ring of Nature's Oracle.", (LogLevel)1);
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.AlphaMeece.SkillRings_ForagingRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.AlphaMeece.SkillRings_ForagingRingB")
             {
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_ForagingRing3");
-                this.Monitor.Log("Got the Ring of Natural Bounty.", (LogLevel) 1);
+                getTier3Ring("AlphaMeece.SkillRings_ForagingRing3");
+                Monitor.Log("Got the Ring of Natural Bounty.", (LogLevel)1);
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_MiningRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_MiningRingB")
             {
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_MiningRing#");
-                this.Monitor.Log("Got the Ring of Dwarven Luck.", (LogLevel) 1);
+                getTier3Ring("AlphaMeece.SkillRings_MiningRing#");
+                Monitor.Log("Got the Ring of Dwarven Luck.", (LogLevel)1);
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_CombatRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_CombatRingB")
             {
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_CombatRing3");
-                this.Monitor.Log("Got the Ring of the War God.", (LogLevel) 1);
+                getTier3Ring("AlphaMeece.SkillRings_CombatRing3");
+                Monitor.Log("Got the Ring of the War God.", (LogLevel)1);
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ExperienceRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ExperienceRingB")
             {
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_ExperienceRing3");
-                this.Monitor.Log("Got the Ring of Ineffable Knowledge.", (LogLevel) 1);
+                getTier3Ring("AlphaMeece.SkillRings_ExperienceRing3");
+                Monitor.Log("Got the Ring of Ineffable Knowledge.", (LogLevel)1);
             }
             else
             {
-                this.Monitor.Log("Player not holding a broken ring.", (LogLevel) 1);
+                Monitor.Log("Player not holding a broken ring.", (LogLevel)1);
             }
         }
 
@@ -124,7 +124,7 @@ namespace SkillRings
         {
             Game1.flashAlpha = 1.0F;
             Game1.player.holdUpItemThenMessage(new StardewValley.Object(id, 1, false, -1, 0), true);
-            if(!Game1.player.addItemToInventoryBool(ItemRegistry.Create(id), false))
+            if (!Game1.player.addItemToInventoryBool(ItemRegistry.Create(id), false))
                 Game1.createItemDebris(new StardewValley.Object(id, 1, false, -1, 0), Game1.player.getStandingPosition(), 1, null, -1);
             Game1.player.jitterStrength = 0.0F;
             Game1.screenGlowHold = false;
@@ -132,30 +132,30 @@ namespace SkillRings
 
         private void onDayStarted(object sender, DayStartedEventArgs e)
         {
-            this.oldExperience = Game1.player.experiencePoints.ToArray();
+            oldExperience = Game1.player.experiencePoints.ToArray();
             handleMail();
         }
 
         private void onGameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            this.hasSpaceLuckSkill = this.Helper.ModRegistry.IsLoaded("spacechase0.LuckSkill");
-            this.hasSVE = this.Helper.ModRegistry.IsLoaded("FlashShifter.SVECode");
+            hasSpaceLuckSkill = Helper.ModRegistry.IsLoaded("spacechase0.LuckSkill");
+            hasSVE = Helper.ModRegistry.IsLoaded("FlashShifter.SVECode");
             //this.hasWMR = this.Helper.ModRegistry.IsLoaded("bcmpinc.WearMoreRings");
             //this.hasCMR = this.Helper.ModRegistry.IsLoaded("Stari.CombineManyRings") || this.Helper.ModRegistry.IsLoaded("Arruda.BalancedCombineManyRings");
 
-            var contentPatcherAPI = this.Helper.ModRegistry.GetApi<IContentPatcherAPI>("Pathoschild.ContentPatcher");
-            contentPatcherAPI.RegisterToken(this.ModManifest, "TierOneRingPrice", () => new[] { this.cfg.tier1SkillRingPrice.ToString() });
-            contentPatcherAPI.RegisterToken(this.ModManifest, "TierTwoRingPrice", () => new[] { this.cfg.tier2SkillRingPrice.ToString() });
-            contentPatcherAPI.RegisterToken(this.ModManifest, "TierThreeRingPrice", () => new[] { this.cfg.tier3SkillRingPrice.ToString() });
+            var contentPatcherAPI = Helper.ModRegistry.GetApi<IContentPatcherAPI>("Pathoschild.ContentPatcher");
+            contentPatcherAPI.RegisterToken(ModManifest, "TierOneRingPrice", () => new[] { cfg.tier1SkillRingPrice.ToString() });
+            contentPatcherAPI.RegisterToken(ModManifest, "TierTwoRingPrice", () => new[] { cfg.tier2SkillRingPrice.ToString() });
+            contentPatcherAPI.RegisterToken(ModManifest, "TierThreeRingPrice", () => new[] { cfg.tier3SkillRingPrice.ToString() });
         }
 
         private bool checkLocations(int[,] coords, Vector2 tile)
         {
-            for(int index = 0; index < coords.GetLength(0); ++index)
+            for (int index = 0; index < coords.GetLength(0); ++index)
             {
                 int coord1 = coords[index, 0];
                 int coord2 = coords[index, 1];
-                if(tile == new Vector2(coord1, coord2))
+                if (tile == new Vector2(coord1, coord2))
                     return true;
             }
             return false;
@@ -163,12 +163,12 @@ namespace SkillRings
 
         private void onButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            if(!Context.IsWorldReady)
+            if (!Context.IsWorldReady)
                 return;
             //If F9(debug key) is pressed
-            if(this.Helper.Input.IsDown((SButton) 120))
+            if (Helper.Input.IsDown((SButton)120))
             {
-                this.Monitor.Log(string.Format("Cursor At X:{0} Y:{1} \n Player at {2}", e.Cursor.GrabTile.X, e.Cursor.GrabTile.Y, Game1.currentLocation?.Name), (LogLevel) 1);
+                Monitor.Log(string.Format("Cursor At X:{0} Y:{1} \n Player at {2}", e.Cursor.GrabTile.X, e.Cursor.GrabTile.Y, Game1.currentLocation?.Name), (LogLevel)1);
                 //if(this.hasWMR)
                 //{
                 //    foreach(Item allRing in this.moreRings.GetAllRings(Game1.player))
@@ -177,38 +177,38 @@ namespace SkillRings
             }
 
             //Decide whether to watch Right Click of the A button on a comtroller
-            SButton sbutton = (SButton) 1001;
+            SButton sbutton = (SButton)1001;
             bool flag = false;
-            if(this.Helper.Input.IsDown((SButton) 1001))
+            if (Helper.Input.IsDown((SButton)1001))
             {
                 flag = true;
-                sbutton = (SButton) 1001;
+                sbutton = (SButton)1001;
             }
-            else if(this.Helper.Input.IsDown((SButton) 6096))
+            else if (Helper.Input.IsDown((SButton)6096))
             {
                 flag = true;
-                sbutton = (SButton) 6096;
+                sbutton = (SButton)6096;
             }
-            if(!flag)
+            if (!flag)
                 return;
 
-            if(Game1.player.ActiveItem == null) return;
+            if (Game1.player.ActiveItem == null) return;
 
             //Transform rings
-            if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FishingRingB")
+            if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FishingRingB")
             {
-                foreach(Building building in Game1.getFarm().buildings)
+                foreach (Building building in Game1.getFarm().buildings)
                 {
-                    if(building.buildingType.Value == "Fish Pond" && building.occupiesTile(e.Cursor.GrabTile))
+                    if (building.buildingType.Value == "Fish Pond" && building.occupiesTile(e.Cursor.GrabTile))
                     {
                         Game1.player.reduceActiveItemByOne();
-                        this.getTier3Ring("AlphaMeece.SkillRings_FishingRing3");
+                        getTier3Ring("AlphaMeece.SkillRings_FishingRing3");
                     }
                 }
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FarmingRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_FarmingRingB")
             {
-                foreach(FarmAnimal allFarmAnimal in Game1.getFarm().getAllFarmAnimals())
+                foreach (FarmAnimal allFarmAnimal in Game1.getFarm().getAllFarmAnimals())
                 {
                     Vector2 grabTile = allFarmAnimal.GetGrabTile();
                     int[,] coords = new int[9, 2]
@@ -250,15 +250,15 @@ namespace SkillRings
                             (int) grabTile.Y + 1
                         }
                     };
-                    if(Game1.player.currentLocation == allFarmAnimal.currentLocation && this.checkLocations(coords, e.Cursor.GrabTile))
+                    if (Game1.player.currentLocation == allFarmAnimal.currentLocation && checkLocations(coords, e.Cursor.GrabTile))
                     {
-                        this.Helper.Input.Suppress(sbutton);
+                        Helper.Input.Suppress(sbutton);
                         Game1.player.reduceActiveItemByOne();
-                        this.getTier3Ring("AlphaMeece.SkillRings_FarmingRing3");
+                        getTier3Ring("AlphaMeece.SkillRings_FarmingRing3");
                     }
                 }
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_CombatRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_CombatRingB")
             {
                 int[,] coords = new int[4, 2]
                 {
@@ -279,13 +279,13 @@ namespace SkillRings
                         7
                     }
                 };
-                if(!(Game1.currentLocation is MineShaft) || Game1.CurrentMineLevel != 77377 || !this.checkLocations(coords, e.Cursor.GrabTile))
+                if (!(Game1.currentLocation is MineShaft) || Game1.CurrentMineLevel != 77377 || !checkLocations(coords, e.Cursor.GrabTile))
                     return;
-                this.Helper.Input.Suppress(sbutton);
+                Helper.Input.Suppress(sbutton);
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_CombatRing3");
+                getTier3Ring("AlphaMeece.SkillRings_CombatRing3");
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ForagingRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ForagingRingB")
             {
                 int[,] coords = new int[11, 2]
                 {
@@ -334,16 +334,16 @@ namespace SkillRings
                         8
                     }
                 };
-                if(!(Game1.currentLocation is Woods) || !this.checkLocations(coords, e.Cursor.GrabTile))
+                if (!(Game1.currentLocation is Woods) || !checkLocations(coords, e.Cursor.GrabTile))
                     return;
-                this.Helper.Input.Suppress(sbutton);
+                Helper.Input.Suppress(sbutton);
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_ForagingRing3");
+                getTier3Ring("AlphaMeece.SkillRings_ForagingRing3");
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_MiningRingB")
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_MiningRingB")
             {
                 int[,] coords;
-                if(this.hasSVE)
+                if (hasSVE)
                     coords = new int[12, 2]
                     {
                         {
@@ -435,16 +435,16 @@ namespace SkillRings
                             14
                         }
                     };
-                if(!(Game1.currentLocation?.Name == "Blacksmith") || !this.checkLocations(coords, e.Cursor.GrabTile))
+                if (!(Game1.currentLocation?.Name == "Blacksmith") || !checkLocations(coords, e.Cursor.GrabTile))
                     return;
-                this.Helper.Input.Suppress(sbutton);
+                Helper.Input.Suppress(sbutton);
                 Game1.player.reduceActiveItemByOne();
-                this.getTier3Ring("AlphaMeece.SkillRings_MiningRing3");
+                getTier3Ring("AlphaMeece.SkillRings_MiningRing3");
             }
-            else if(Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ExperienceRingB")
-            { 
+            else if (Game1.player.ActiveItem.QualifiedItemId == "(O)AlphaMeece.SkillRings_ExperienceRingB")
+            {
                 int[,] coords;
-                if(this.hasSVE)
+                if (hasSVE)
                     coords = new int[12, 2]
                     {
                         {
@@ -524,18 +524,18 @@ namespace SkillRings
                             5
                         }
                     };
-                if((Game1.currentLocation?.Name == "WizardHouseBasement" || Game1.currentLocation?.Name == "WizardBasement" || Game1.currentLocation?.Name == "Custom_WizardBasement") && this.checkLocations(coords, e.Cursor.GrabTile))
+                if ((Game1.currentLocation?.Name == "WizardHouseBasement" || Game1.currentLocation?.Name == "WizardBasement" || Game1.currentLocation?.Name == "Custom_WizardBasement") && checkLocations(coords, e.Cursor.GrabTile))
                 {
-                    this.Helper.Input.Suppress(sbutton);
+                    Helper.Input.Suppress(sbutton);
                     Game1.player.reduceActiveItemByOne();
-                    this.getTier3Ring("AlphaMeece.SkillRings_ExperienceRing3");
+                    getTier3Ring("AlphaMeece.SkillRings_ExperienceRing3");
                 }
             }
         }
 
         private void onUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if(!Context.IsPlayerFree || !e.IsOneSecond)
+            if (!Context.IsPlayerFree || !e.IsOneSecond)
                 return;
 
             List<Buff> buffs = new List<Buff>();
@@ -544,16 +544,16 @@ namespace SkillRings
             Buff farmingBuff = new Buff(id: "AlphaMeece.SkillRings_FarmingBuff", duration: Buff.ENDLESS);
             int farmingLevel = -1;
 
-            if(this.hasRing("AlphaMeece.SkillRings_FarmingRing3"))
+            if (hasRing("AlphaMeece.SkillRings_FarmingRing3"))
                 farmingLevel = cfg.tier3SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_FarmingRing2"))
+            else if (hasRing("AlphaMeece.SkillRings_FarmingRing2"))
                 farmingLevel = cfg.tier2SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_FarmingRing1"))
+            else if (hasRing("AlphaMeece.SkillRings_FarmingRing1"))
                 farmingLevel = cfg.tier1SkillRingBoost;
-            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_FarmingBuff"))
+            else if (Game1.player.hasBuff("AlphaMeece.SkillRings_FarmingBuff"))
                 Game1.player.buffs.Remove("AlphaMeece.SkillRings_FarmingBuff");
 
-            if(farmingLevel != -1) 
+            if (farmingLevel != -1)
             {
                 farmingBuff.effects.Add(new BuffEffects()
                 {
@@ -566,16 +566,16 @@ namespace SkillRings
             Buff fishingBuff = new Buff(id: "AlphaMeece.SkillRings_FishingBuff", duration: Buff.ENDLESS);
             int fishingLevel = -1;
 
-            if(this.hasRing("AlphaMeece.SkillRings_FishingRing3"))
+            if (hasRing("AlphaMeece.SkillRings_FishingRing3"))
                 fishingLevel = cfg.tier3SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_FishingRing2"))
+            else if (hasRing("AlphaMeece.SkillRings_FishingRing2"))
                 fishingLevel = cfg.tier2SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_FishingRing1"))
-                fishingLevel = cfg.tier1SkillRingBoost; 
-            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_FishingBuff"))
+            else if (hasRing("AlphaMeece.SkillRings_FishingRing1"))
+                fishingLevel = cfg.tier1SkillRingBoost;
+            else if (Game1.player.hasBuff("AlphaMeece.SkillRings_FishingBuff"))
                 Game1.player.buffs.Remove("AlphaMeece.SkillRings_FishingBuff");
 
-            if(fishingLevel != -1)
+            if (fishingLevel != -1)
             {
                 fishingBuff.effects.Add(new BuffEffects()
                 {
@@ -588,16 +588,16 @@ namespace SkillRings
             Buff miningBuff = new Buff(id: "AlphaMeece.SkillRings_MiningBuff", duration: Buff.ENDLESS);
             int miningLevel = -1;
 
-            if(this.hasRing("AlphaMeece.SkillRings_MiningRing3"))
+            if (hasRing("AlphaMeece.SkillRings_MiningRing3"))
                 miningLevel = cfg.tier3SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_MiningRing2"))
+            else if (hasRing("AlphaMeece.SkillRings_MiningRing2"))
                 miningLevel = cfg.tier2SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_MiningRing1"))
+            else if (hasRing("AlphaMeece.SkillRings_MiningRing1"))
                 miningLevel = cfg.tier1SkillRingBoost;
-            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_MiningBuff"))
+            else if (Game1.player.hasBuff("AlphaMeece.SkillRings_MiningBuff"))
                 Game1.player.buffs.Remove("AlphaMeece.SkillRings_MiningBuff");
 
-            if(miningLevel != -1)
+            if (miningLevel != -1)
             {
                 miningBuff.effects.Add(new BuffEffects()
                 {
@@ -610,16 +610,16 @@ namespace SkillRings
             Buff foragingBuff = new Buff(id: "AlphaMeece.SkillRings_ForagingBuff", duration: Buff.ENDLESS);
             int foragingLevel = -1;
 
-            if(this.hasRing("AlphaMeece.SkillRings_ForagingRing3"))
+            if (hasRing("AlphaMeece.SkillRings_ForagingRing3"))
                 foragingLevel = cfg.tier3SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_ForagingRing2"))
+            else if (hasRing("AlphaMeece.SkillRings_ForagingRing2"))
                 foragingLevel = cfg.tier2SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_ForagingRing1"))
+            else if (hasRing("AlphaMeece.SkillRings_ForagingRing1"))
                 foragingLevel = cfg.tier1SkillRingBoost;
-            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_ForagingBuff"))
+            else if (Game1.player.hasBuff("AlphaMeece.SkillRings_ForagingBuff"))
                 Game1.player.buffs.Remove("AlphaMeece.SkillRings_ForagingBuff");
 
-            if(foragingLevel != -1)
+            if (foragingLevel != -1)
             {
                 foragingBuff.effects.Add(new BuffEffects()
                 {
@@ -632,16 +632,16 @@ namespace SkillRings
             Buff combatBuff = new Buff(id: "AlphaMeece.SkillRings_CombatBuff", duration: Buff.ENDLESS);
             int combatLevel = -1;
 
-            if(this.hasRing("AlphaMeece.SkillRings_CombatRing3"))
+            if (hasRing("AlphaMeece.SkillRings_CombatRing3"))
                 combatLevel = cfg.tier3SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_CombatRing2"))
+            else if (hasRing("AlphaMeece.SkillRings_CombatRing2"))
                 combatLevel = cfg.tier2SkillRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_CombatRing1"))
+            else if (hasRing("AlphaMeece.SkillRings_CombatRing1"))
                 combatLevel = cfg.tier1SkillRingBoost;
-            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_CombatBuff"))
+            else if (Game1.player.hasBuff("AlphaMeece.SkillRings_CombatBuff"))
                 Game1.player.buffs.Remove("AlphaMeece.SkillRings_CombatBuff");
 
-            if(combatLevel != -1)
+            if (combatLevel != -1)
             {
                 combatBuff.effects.Add(new BuffEffects()
                 {
@@ -657,42 +657,42 @@ namespace SkillRings
             Buff experienceBuff = new Buff(id: "AlphaMeece.SkillRings_ExperienceBuff", duration: Buff.ENDLESS);
             float expLevel = -1f;
 
-            if(this.hasRing("AlphaMeece.SkillRings_ExperienceRing3"))
+            if (hasRing("AlphaMeece.SkillRings_ExperienceRing3"))
                 expLevel = cfg.tier3ExperienceRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_ExperienceRing2"))
+            else if (hasRing("AlphaMeece.SkillRings_ExperienceRing2"))
                 expLevel = cfg.tier2ExperienceRingBoost;
-            else if(this.hasRing("AlphaMeece.SkillRings_ExperienceRing1"))
+            else if (hasRing("AlphaMeece.SkillRings_ExperienceRing1"))
                 expLevel = cfg.tier1ExperienceRingBoost;
-            else if(Game1.player.hasBuff("AlphaMeece.SkillRings_ExperienceBuff"))
+            else if (Game1.player.hasBuff("AlphaMeece.SkillRings_ExperienceBuff"))
             {
                 Game1.player.buffs.Remove("AlphaMeece.SkillRings_ExperienceBuff");
-                this.expMultiplier = 0f;
+                expMultiplier = 0f;
             }
-                
 
-            if(expLevel != -1f)
+
+            if (expLevel != -1f)
             {
-                this.expMultiplier = expLevel;
+                expMultiplier = expLevel;
                 buffs.Add(experienceBuff);
             }
 
             //Modded skills
             //Luck
-            if(this.hasSpaceLuckSkill)
+            if (hasSpaceLuckSkill)
             {
                 Buff luckBuff = new Buff(id: "AlphaMeece.SkillRings_LuckBuff", duration: Buff.ENDLESS);
                 int luckLevel = -1;
 
-                if(this.hasRing("AlphaMeece.SkillRings_LuckRing3"))
+                if (hasRing("AlphaMeece.SkillRings_LuckRing3"))
                     luckLevel = cfg.tier3SkillRingBoost;
-                else if(this.hasRing("AlphaMeece.SkillRings_LuckRing2"))
+                else if (hasRing("AlphaMeece.SkillRings_LuckRing2"))
                     luckLevel = cfg.tier2SkillRingBoost;
-                else if(this.hasRing("AlphaMeece.SkillRings_LuckRing1"))
+                else if (hasRing("AlphaMeece.SkillRings_LuckRing1"))
                     luckLevel = cfg.tier1SkillRingBoost;
-                else if(Game1.player.hasBuff("AlphaMeece.SkillRings_LuckBuff"))
+                else if (Game1.player.hasBuff("AlphaMeece.SkillRings_LuckBuff"))
                     Game1.player.buffs.Remove("AlphaMeece.SkillRings_LuckBuff");
 
-                if(luckLevel != -1)
+                if (luckLevel != -1)
                 {
                     luckBuff.effects.Add(new BuffEffects()
                     {
@@ -708,17 +708,17 @@ namespace SkillRings
                 Game1.player.applyBuff(item);
             }
 
-            if(Game1.player.hasBuff("AlphaMeece.SkillRings_ExperienceBuff"))
+            if (Game1.player.hasBuff("AlphaMeece.SkillRings_ExperienceBuff"))
             {
-                if(oldExperience != Game1.player.experiencePoints.ToArray())
+                if (oldExperience != Game1.player.experiencePoints.ToArray())
                 {
-                    for(int skill = 0; skill < 6; skill++)
+                    for (int skill = 0; skill < 6; skill++)
                     {
                         int currentExp = Game1.player.experiencePoints.ElementAt(skill);
-                        if(currentExp > oldExperience[skill])
+                        if (currentExp > oldExperience[skill])
                         {
-                            Game1.player.gainExperience(skill, (int) Math.Ceiling((currentExp - oldExperience[skill]) * this.expMultiplier));
-                            this.Monitor.Log($"Gained experience from experience ring\nCurrent Multiplier:{1 + this.expMultiplier}\nExp Change:{currentExp} - {oldExperience[skill]} = {currentExp - oldExperience[skill]}\nGained Experience: {Math.Ceiling((currentExp - oldExperience[skill]) * this.expMultiplier)}\nNew Total: {Game1.player.experiencePoints.ElementAt(skill)}", LogLevel.Debug);
+                            Game1.player.gainExperience(skill, (int)Math.Ceiling((currentExp - oldExperience[skill]) * expMultiplier));
+                            Monitor.Log($"Gained experience from experience ring\nCurrent Multiplier:{1 + expMultiplier}\nExp Change:{currentExp} - {oldExperience[skill]} = {currentExp - oldExperience[skill]}\nGained Experience: {Math.Ceiling((currentExp - oldExperience[skill]) * expMultiplier)}\nNew Total: {Game1.player.experiencePoints.ElementAt(skill)}", LogLevel.Debug);
                         }
                     }
                 }
@@ -733,40 +733,40 @@ namespace SkillRings
 
         private void handleMail()
         {
-            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_DustyRing"))
+            if (!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_DustyRing"))
             {
-                if(Game1.player.getFriendshipHeartLevelForNPC("Willy") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_DustyRing");
+                if (Game1.player.getFriendshipHeartLevelForNPC("Willy") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_DustyRing");
             }
 
-            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_StoneRing"))
+            if (!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_StoneRing"))
             {
-                if(Game1.player.getFriendshipHeartLevelForNPC("Dwarf") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_StoneRing");
+                if (Game1.player.getFriendshipHeartLevelForNPC("Dwarf") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_StoneRing");
             }
 
-            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_StickyRing"))
+            if (!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_StickyRing"))
             {
-                if(Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_StickyRing");
+                if (Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_StickyRing");
             }
 
-            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_GrassyRing"))
+            if (!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_GrassyRing"))
             {
-                if(Game1.player.getFriendshipHeartLevelForNPC("Marnie") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_GrassyRing");
+                if (Game1.player.getFriendshipHeartLevelForNPC("Marnie") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_GrassyRing");
             }
 
-            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_CursedRing"))
+            if (!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_CursedRing"))
             {
-                if(Game1.player.getFriendshipHeartLevelForNPC("Abigail") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_CursedRing");
+                if (Game1.player.getFriendshipHeartLevelForNPC("Abigail") >= 4) Game1.player.mailbox.Add("AlphaMeece.SkillRings_CursedRing");
             }
 
             //Recipes
-            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_Foraging1Recipe"))
+            if (!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_Foraging1Recipe"))
             {
-                if(Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 1) Game1.player.mailbox.Add("AlphaMeece.SkillRings_Foraging1Recipe");
+                if (Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 1) Game1.player.mailbox.Add("AlphaMeece.SkillRings_Foraging1Recipe");
             }
 
-            if(!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_Foraging2Recipe"))
+            if (!Game1.player.mailReceived.Contains("AlphaMeece.SkillRings_Foraging2Recipe"))
             {
-                if(Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 2) Game1.player.mailbox.Add("AlphaMeece.SkillRings_Foraging2Recipe");
+                if (Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 2) Game1.player.mailbox.Add("AlphaMeece.SkillRings_Foraging2Recipe");
             }
         }
     }
