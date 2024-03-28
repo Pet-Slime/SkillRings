@@ -1,0 +1,101 @@
+{
+    "Changes": [
+        //Base Game Rings
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "AlphaMeece.GluttonyRing_PeckishRing": {
+                    "Name": "AlphaMeece.GluttonyRing_PeckishRing",
+                    "Type": "Ring",
+                    "Category": 0,
+                    "Price": 0,
+                    "SpriteIndex": 0,
+                    "DisplayName": "{{i18n:PeckishRing_Name}}",
+                    "Description": "{{i18n:PeckishRing_Description}}",
+                    "Texture": "AlphaMeece.GluttonyRing/Objects",
+                    "Edibility": -300,
+                    "ContextTags": [
+                        "ring_item",
+                        "color_purple"
+                    ]
+                },
+                "AlphaMeece.GluttonyRing_HungryRing": {
+                    "Name": "AlphaMeece.GluttonyRing_HungryRing",
+                    "Type": "Ring",
+                    "Category": 0,
+                    "Price": 0,
+                    "SpriteIndex": 1,
+                    "DisplayName": "{{i18n:HungryRing_Name}}",
+                    "Description": "{{i18n:HungryRing_Description}}",
+                    "Texture": "AlphaMeece.GluttonyRing/Objects",
+                    "Edibility": -300,
+                    "ContextTags": [
+                        "ring_item",
+                        "color_purple"
+                    ]
+                },
+                "AlphaMeece.GluttonyRing_StarvingRing": {
+                    "Name": "AlphaMeece.GluttonyRing_StarvingRing",
+                    "Type": "Ring",
+                    "Category": 0,
+                    "Price": 0,
+                    "SpriteIndex": 2,
+                    "DisplayName": "{{i18n:StarvingRing_Name}}",
+                    "Description": "{{i18n:StarvingRing_Description}}",
+                    "Texture": "AlphaMeece.GluttonyRing/Objects",
+                    "Edibility": -300,
+                    "ContextTags": [
+                        "ring_item",
+                        "color_purple"
+                    ]
+                },
+                "AlphaMeece.GluttonyRing_RavenousRing": {
+                    "Name": "AlphaMeece.GluttonyRing_RavenousRing",
+                    "Type": "Ring",
+                    "Category": 0,
+                    "Price": 0,
+                    "SpriteIndex": 3,
+                    "DisplayName": "{{i18n:RavenousRing_Name}}",
+                    "Description": "{{i18n:RavenousRing_Description}}",
+                    "Texture": "AlphaMeece.GluttonyRing/Objects",
+                    "Edibility": -300,
+                    "ContextTags": [
+                        "ring_item",
+                        "color_purple"
+                    ]
+                },
+                "AlphaMeece.GluttonyRing_GluttonousRing": {
+                    "Name": "AlphaMeece.GluttonyRing_GluttonousRing",
+                    "Type": "Ring",
+                    "Category": 0,
+                    "Price": 0,
+                    "SpriteIndex": 4,
+                    "DisplayName": "{{i18n:GluttonousRing_Name}}",
+                    "Description": "{{i18n:GluttonousRing_Description}}",
+                    "Texture": "AlphaMeece.GluttonyRing/Objects",
+                    "Edibility": -300,
+                    "ContextTags": [
+                        "ring_item",
+                        "color_purple"
+                    ]
+                },
+                "AlphaMeece.GluttonyRing_GluttonousRingTrue": {
+                    "Name": "AlphaMeece.GluttonyRing_GluttonousRingTrue",
+                    "Type": "Ring",
+                    "Category": 0,
+                    "Price": 0,
+                    "SpriteIndex": 5,
+                    "DisplayName": "{{i18n:GluttonousRingTrue_Name}}",
+                    "Description": "{{i18n:GluttonousRingTrue_Description}}",
+                    "Texture": "AlphaMeece.GluttonyRing/Objects",
+                    "Edibility": -300,
+                    "ContextTags": [
+                        "ring_item",
+                        "color_purple"
+                    ]
+                }
+            }
+        }
+    ]
+}

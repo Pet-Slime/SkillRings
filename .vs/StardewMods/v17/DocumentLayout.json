@@ -1,12 +1,71 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\aslpl\\Desktop\\StardewMods\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|c:\\users\\aslpl\\desktop\\stardewmods\\gluttonyring\\[cp] gluttonyring\\data\\objects.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|solutionrelative:gluttonyring\\[cp] gluttonyring\\data\\objects.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|c:\\users\\aslpl\\desktop\\stardewmods\\gluttonyring\\[cp] gluttonyring\\content.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|solutionrelative:gluttonyring\\[cp] gluttonyring\\content.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|c:\\users\\aslpl\\desktop\\stardewmods\\gluttonyring\\[cp] gluttonyring\\i18n\\default.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0431F5C5-5054-4A80-BD5C-A7EDD7B248D2}|GluttonyRing\\GluttonyRing.csproj|solutionrelative:gluttonyring\\[cp] gluttonyring\\i18n\\default.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "content.json",
+              "DocumentMoniker": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\content.json",
+              "RelativeDocumentMoniker": "GluttonyRing\\[CP] GluttonyRing\\content.json",
+              "ToolTip": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\content.json",
+              "RelativeToolTip": "GluttonyRing\\[CP] GluttonyRing\\content.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-03-28T15:26:01.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "objects.json",
+              "DocumentMoniker": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\data\\objects.json",
+              "RelativeDocumentMoniker": "GluttonyRing\\[CP] GluttonyRing\\data\\objects.json",
+              "ToolTip": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\data\\objects.json",
+              "RelativeToolTip": "GluttonyRing\\[CP] GluttonyRing\\data\\objects.json",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAwwFoAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-03-28T15:21:12.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "default.json",
+              "DocumentMoniker": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "RelativeDocumentMoniker": "GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "ToolTip": "C:\\Users\\aslpl\\Desktop\\StardewMods\\GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "RelativeToolTip": "GluttonyRing\\[CP] GluttonyRing\\i18n\\default.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-03-28T15:21:08.06Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

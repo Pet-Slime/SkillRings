@@ -1,0 +1,16 @@
+{
+    "Format": "2.0.0",
+    "Changes": [
+        //Load spritesheet
+        {
+            "Action": "Load",
+            "Target": "AlphaMeece.GluttonyRing/Objects",
+            "FromFile": "assets/{{TargetWithoutPath}}.png"
+        },
+        //Add the rings
+        {
+            "Action": "Include",
+            "FromFile": "data/objects.json"
+        }
+    ]
+}
