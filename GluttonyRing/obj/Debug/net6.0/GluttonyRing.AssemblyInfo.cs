@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GluttonyRing")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3c1d70d7bc6d9a6c112c552d2f94f491bb70ce2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a534a1c863c761ff5f7c5e935d95f24057f5800")]
 [assembly: System.Reflection.AssemblyProductAttribute("GluttonyRing")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GluttonyRing")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
