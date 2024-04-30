@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SkillRings")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3c1d70d7bc6d9a6c112c552d2f94f491bb70ce2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e24962a124ec35982a09388efc7a7042c6b1ffd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SkillRings")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SkillRings")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

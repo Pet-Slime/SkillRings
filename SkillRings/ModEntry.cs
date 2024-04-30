@@ -9,10 +9,15 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Locations;
 using StardewValley.Objects;
+using StardewValley.GameData.Objects;
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using StardewValley.Buffs;
+using SpaceCore.Spawnables;
+using Microsoft.Xna.Framework.Graphics;
+using xTile.Tiles;
+using StardewValley.GameData.Shops;
 
 namespace SkillRings
 {
@@ -26,12 +31,19 @@ namespace SkillRings
         private float expMultiplier = 0f;
         private int[] oldExperience = { 0, 0, 0, 0, 0, 0 };
 
+        private List<string> ringIDs = new List<string>();
+        private string[] moddedSkillIds = { };
+        private bool hasModdedSkills = false;
+        private int[] moddedSkillExperience = { };
+
         public override void Entry(IModHelper helper)
         {
             helper.Events.GameLoop.GameLaunched += new EventHandler<GameLaunchedEventArgs>(onGameLaunched);
             helper.Events.GameLoop.UpdateTicked += new EventHandler<UpdateTickedEventArgs>(onUpdateTicked);
             helper.Events.GameLoop.DayStarted += new EventHandler<DayStartedEventArgs>(onDayStarted);
+            helper.Events.GameLoop.SaveLoaded += new EventHandler<SaveLoadedEventArgs>(onSaveLoaded);
             helper.Events.Input.ButtonPressed += new EventHandler<ButtonPressedEventArgs>(onButtonPressed);
+            helper.Events.Content.AssetRequested += new EventHandler<AssetRequestedEventArgs>(onAssetRequested);
 
             //Adding console commands to the game
             //Fixes the health of the player if it was messed up by the mod
@@ -147,6 +159,108 @@ namespace SkillRings
             contentPatcherAPI.RegisterToken(ModManifest, "TierOneRingPrice", () => new[] { cfg.tier1SkillRingPrice.ToString() });
             contentPatcherAPI.RegisterToken(ModManifest, "TierTwoRingPrice", () => new[] { cfg.tier2SkillRingPrice.ToString() });
             contentPatcherAPI.RegisterToken(ModManifest, "TierThreeRingPrice", () => new[] { cfg.tier3SkillRingPrice.ToString() });
+        }
+
+        private void onSaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            moddedSkillIds = Skills.GetSkillList();
+            if(moddedSkillIds.Length != 0) hasModdedSkills = true;
+
+            if(hasModdedSkills)
+            {
+                List<int> oldExp = new List<int>();
+                foreach(var id in moddedSkillIds)
+                {
+                    oldExp.Add(Skills.GetExperienceFor(Game1.player, id));
+                }
+                moddedSkillExperience = oldExp.ToArray();
+            }
+
+
+            Helper.GameContent.InvalidateCache("Data/Objects");
+            Helper.GameContent.InvalidateCache("Data/Shops");
+        }
+
+        private void onAssetRequested(object sender, AssetRequestedEventArgs e)
+        {
+            if(e.NameWithoutLocale.IsEquivalentTo("Data/Objects"))
+            {
+                if(hasModdedSkills)
+                {
+                    foreach(string id in moddedSkillIds)
+                    {
+                        Monitor.Log(string.Format("Loaded Custom Skill {0}", id), (LogLevel) 1);
+                        ObjectData Ring1 = new ObjectData()
+                        {
+                            Name = string.Format("AlphaMeece.SkillRings_{0}Ring1", id),
+                            DisplayName = string.Format("{0} 1", Skills.GetSkill(id).GetName()),
+                            Description = string.Format("+{0} {1}", cfg.tier1SkillRingBoost.ToString(), Skills.GetSkill(id).GetName()),
+                            Type = "Ring",
+                            Category = StardewValley.Object.ringCategory,
+                            Texture = "AlphaMeece.SkillRings/Objects",
+                            SpriteIndex = 24
+                        };
+                        ObjectData Ring2 = new ObjectData()
+                        {
+                            Name = string.Format("AlphaMeece.SkillRings_{0}Ring2", id),
+                            DisplayName = string.Format("{0} 2", Skills.GetSkill(id).GetName()),
+                            Description = string.Format("+{0} {1}", cfg.tier2SkillRingBoost.ToString(), Skills.GetSkill(id).GetName()),
+                            Type = "Ring",
+                            Category = StardewValley.Object.ringCategory,
+                            Texture = "AlphaMeece.SkillRings/Objects",
+                            SpriteIndex = 25
+                        };
+                        ObjectData Ring3 = new ObjectData()
+                        {
+                            Name = string.Format("AlphaMeece.SkillRings_{0}Ring3", id),
+                            DisplayName = string.Format("{0} 3", Skills.GetSkill(id).GetName()),
+                            Description = string.Format("+{0} {1}", cfg.tier3SkillRingBoost.ToString(), Skills.GetSkill(id).GetName()),
+                            Type = "Ring",
+                            Category = StardewValley.Object.ringCategory,
+                            Texture = "AlphaMeece.SkillRings/Objects",
+                            SpriteIndex = 26
+                        };
+
+                        ringIDs.Add(string.Format("AlphaMeece.SkillRings_{0}Ring1", id));
+                        ringIDs.Add(string.Format("AlphaMeece.SkillRings_{0}Ring2", id));
+                        ringIDs.Add(string.Format("AlphaMeece.SkillRings_{0}Ring3", id));
+
+                        e.Edit(asset =>
+                        {
+                            var editor = asset.AsDictionary<string, ObjectData>();
+                            editor.Data.TryAdd(Ring1.Name, Ring1);
+                            editor.Data.TryAdd(Ring2.Name, Ring2);
+                            editor.Data.TryAdd(Ring3.Name, Ring3);
+                        });
+                    }
+                }
+            }
+
+            if(e.NameWithoutLocale.IsEquivalentTo("Data/Shops"))
+            {
+                e.Edit(asset =>
+                {
+                    for(int i = 0; i < ringIDs.Count; i += 3)
+                    {
+                        var editor = asset.AsDictionary<string, ShopData>();
+                        if(editor.Data.TryGetValue("Traveler", out var merchant))
+                        {
+                            bool flag = false;
+                            foreach(var item in merchant.Items) if(item.ItemId == ringIDs[i]) flag = true;
+                            if(!flag) merchant.Items.Add(new ShopItemData { ItemId = ringIDs[i], Price = cfg.tier1SkillRingPrice, AvoidRepeat = true });
+                            
+                            flag = false;
+                            foreach(var item in merchant.Items) if(item.ItemId == ringIDs[i + 1]) flag = true;
+                            if(!flag) merchant.Items.Add(new ShopItemData { ItemId = ringIDs[i + 1], Price = cfg.tier2SkillRingPrice, AvoidRepeat = true });
+
+                            flag = false;
+                            foreach(var item in merchant.Items) if(item.ItemId == ringIDs[i + 2]) flag = true;
+                            if(!flag) merchant.Items.Add(new ShopItemData { ItemId = ringIDs[i + 2], Price = cfg.tier3SkillRingPrice, AvoidRepeat = true });
+                        }
+                        else Monitor.Log("Failed", (LogLevel) 1);
+                    }
+                });
+            }
         }
 
         private bool checkLocations(int[,] coords, Vector2 tile)
@@ -677,6 +791,36 @@ namespace SkillRings
             }
 
             //Modded skills
+            if(hasModdedSkills)
+            {
+                foreach(string id in moddedSkillIds)
+                {
+                    Dictionary<string, string> moddedBuffEffect = new Dictionary<string, string>();
+                    int moddedBuffLevel = -1;
+
+                    if(hasRing(string.Format("AlphaMeece.SkillRings_{0}Ring3", id)))
+                        moddedBuffLevel = cfg.tier3SkillRingBoost;
+                    else if(hasRing(string.Format("AlphaMeece.SkillRings_{0}Ring2", id)))
+                        moddedBuffLevel = cfg.tier2SkillRingBoost;
+                    else if(hasRing(string.Format("AlphaMeece.SkillRings_{0}Ring1", id)))
+                        moddedBuffLevel = cfg.tier1SkillRingBoost;
+                    else if(Game1.player.hasBuff(string.Format("AlphaMeece.SkillRings_{0}Buff", id)))
+                        Game1.player.buffs.Remove(string.Format("AlphaMeece.SkillRings_{0}Buff", id));
+
+                    if(moddedBuffLevel != -1)
+                    {
+                        moddedBuffEffect.Add(string.Format("spacechase.SpaceCore.SkillBuff.{0}", id), moddedBuffLevel.ToString());
+
+                        Skills.SkillBuff moddedBuff = new Skills.SkillBuff(new Buff(id: string.Format("AlphaMeece.SkillRings_{0}Buff", id), duration: Buff.ENDLESS),
+                            string.Format("AlphaMeece.SkillRings_{0}Buff", id),
+                            moddedBuffEffect);
+
+                        buffs.Add(moddedBuff);
+                    }
+                   
+                }
+            }
+
             //Luck
             if (hasSpaceLuckSkill)
             {
@@ -704,6 +848,7 @@ namespace SkillRings
 
             foreach (var item in buffs)
             {
+                if(Game1.player.hasBuff(item.id)) continue;
                 item.visible = false;
                 Game1.player.applyBuff(item);
             }
@@ -718,8 +863,20 @@ namespace SkillRings
                         if (currentExp > oldExperience[skill])
                         {
                             Game1.player.gainExperience(skill, (int)Math.Ceiling((currentExp - oldExperience[skill]) * expMultiplier));
-                            Monitor.Log($"Gained experience from experience ring\nCurrent Multiplier:{1 + expMultiplier}\nExp Change:{currentExp} - {oldExperience[skill]} = {currentExp - oldExperience[skill]}\nGained Experience: {Math.Ceiling((currentExp - oldExperience[skill]) * expMultiplier)}\nNew Total: {Game1.player.experiencePoints.ElementAt(skill)}", LogLevel.Debug);
+                            //Monitor.Log($"Gained experience from experience ring\nCurrent Multiplier:{1 + expMultiplier}\nExp Change:{currentExp} - {oldExperience[skill]} = {currentExp - oldExperience[skill]}\nGained Experience: {Math.Ceiling((currentExp - oldExperience[skill]) * expMultiplier)}\nNew Total: {Game1.player.experiencePoints.ElementAt(skill)}", LogLevel.Debug);
                         }
+                    }
+                }
+                if(hasModdedSkills)
+                {
+                    for(int i = 0; i < moddedSkillIds.Length; i++)
+                    {
+                        string id = moddedSkillIds[i];
+                        if(Skills.GetExperienceFor(Game1.player, id) > moddedSkillExperience[i])
+                        {
+                            Skills.AddExperience(Game1.player, id, (int) Math.Ceiling((Skills.GetExperienceFor(Game1.player, id) - moddedSkillExperience[i]) * expMultiplier));
+                        }
+                        moddedSkillExperience[i] = Skills.GetExperienceFor(Game1.player, id);
                     }
                 }
             }
