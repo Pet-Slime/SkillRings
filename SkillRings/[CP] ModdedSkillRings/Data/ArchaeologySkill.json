@@ -1,0 +1,42 @@
+{
+    "Changes": [
+        {
+            "Action": "Load",
+            "When": {
+                "HasMod |contains=moonslime.ArchaeologySkill": true
+            },
+            "Target": "Mods/moonslime.ModdedSkillRings/ArchaeologySkill",
+            "FromFile": "Assets/ArchaeologySkill.png"
+        },
+        {
+            "Action": "EditData",
+            "When": {
+                "HasMod |contains=moonslime.ArchaeologySkill": true
+            },
+            "Target": "Data/Objects",
+            "Fields": {
+                "AlphaMeece.SkillRings_moonslime.ArchaeologyRing1": {
+                    "Name": "Archaeology Ring 1",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.ArchaeologyRing1.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.ArchaeologyRing1.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/ArchaeologySkill",
+                    "SpriteIndex": 0
+                },
+                "AlphaMeece.SkillRings_moonslime.ArchaeologyRing2": {
+                    "Name": "Archaeology Ring 2",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.ArchaeologyRing2.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.ArchaeologyRing2.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/ArchaeologySkill",
+                    "SpriteIndex": 1
+                },
+                "AlphaMeece.SkillRings_moonslime.ArchaeologyRing3": {
+                    "Name": "Archaeology Ring 3",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.ArchaeologyRing3.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.ArchaeologyRing3.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/ArchaeologySkill",
+                    "SpriteIndex": 2
+                }
+            }
+        }
+    ]
+}

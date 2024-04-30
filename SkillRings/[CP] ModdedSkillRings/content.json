@@ -1,0 +1,53 @@
+{
+    "Format": "2.0.0",
+    "Changes": [
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=moonslime.ArchaeologySkill": true,
+				"query: {{DaysPlayed}} >= 1": true
+            },
+            "FromFile": "Data/ArchaeologySkill.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=moonslime.CookingSkill": true,
+				"query: {{DaysPlayed}} >= 1": true
+            },
+            "FromFile": "Data/CookingSkill.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=moonslime.LuckSkill": true,
+				"query: {{DaysPlayed}} >= 1": true
+            },
+            "FromFile": "Data/LuckSkill.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=moonslime.SpookySkill": true,
+				"query: {{DaysPlayed}} >= 1": true
+            },
+            "FromFile": "Data/SpookySkill.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=drbirbdev.BinningSkill": true,
+				"query: {{DaysPlayed}} >= 1": true
+            },
+            "FromFile": "Data/BinningSkill.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=drbirbdev.SocializingSkill": true,
+				"query: {{DaysPlayed}} >= 1": true
+            },
+            "FromFile": "Data/SocializingSkill.json"
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "Name": "Skill rings translations for modded skills",
+    "Author": "moonSlime",
+    "Description": "Adjust items for modded skillrings",
+    "Version": "1.0.0",
+    "UniqueID": "moonslime.CP.SkillRings",
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "MinimumApiVersion": "4.0.0",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "Dependencies": [
+        {
+            "UniqueId": "AlphaMeece.SkillRings",
+            "IsRequired": true
+        },
+		{
+            "UniqueId": "AlphaMeece.CP.SkillRings",
+            "IsRequired": true
+        },
+		{
+            "UniqueId": "spacechase0.SpaceCore",
+            "IsRequired": false
+        },
+		{
+            "UniqueId": "moonslime.ArchaeologySkill",
+            "IsRequired": false
+        },
+		{
+            "UniqueId": "moonslime.CookingSkill",
+            "IsRequired": false
+        },
+		{
+            "UniqueId": "moonslime.LuckSkill",
+            "IsRequired": false
+        },
+		{
+            "UniqueId": "moonslime.SpookySkill",
+            "IsRequired": false
+        },
+		{
+            "UniqueId": "drbirbdev.BinningSkill",
+            "IsRequired": false
+        },
+		{
+            "UniqueId": "drbirbdev.SocializingSkill",
+            "IsRequired": false
+        }
+    ]
+}

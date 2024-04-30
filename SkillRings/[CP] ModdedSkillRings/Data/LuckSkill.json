@@ -1,0 +1,42 @@
+{
+    "Changes": [
+        {
+            "Action": "Load",
+            "When": {
+                "HasMod |contains=moonslime.LuckSkill": true
+            },
+            "Target": "Mods/moonslime.ModdedSkillRings/LuckSkill",
+            "FromFile": "Assets/LuckSkill.png"
+        },
+        {
+            "Action": "EditData",
+            "When": {
+                "HasMod |contains=moonslime.LuckSkill": true
+            },
+            "Target": "Data/Objects",
+            "Fields": {
+                "AlphaMeece.SkillRings_moonslime.LuckRing1": {
+                    "Name": "Luck Ring 1",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.LuckRing1.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.LuckRing1.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/LuckSkill",
+                    "SpriteIndex": 0
+                },
+                "AlphaMeece.SkillRings_moonslime.LuckRing2": {
+                    "Name": "Luck Ring 2",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.LuckRing2.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.LuckRing2.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/LuckSkill",
+                    "SpriteIndex": 1
+                },
+                "AlphaMeece.SkillRings_moonslime.LuckRing3": {
+                    "Name": "Luck Ring 3",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.LuckRing3.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.LuckRing3.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/LuckSkill",
+                    "SpriteIndex": 2
+                }
+            }
+        }
+    ]
+}

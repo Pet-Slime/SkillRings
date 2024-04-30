@@ -1,0 +1,42 @@
+{
+    "Changes": [
+        {
+            "Action": "Load",
+            "When": {
+                "HasMod |contains=drbirbdev.SocializingSkill": true
+            },
+            "Target": "Mods/moonslime.ModdedSkillRings/SocializingSkill",
+            "FromFile": "Assets/SocializingSkill.png"
+        },
+        {
+            "Action": "EditData",
+            "When": {
+                "HasMod |contains=drbirbdev.SocializingSkill": true
+            },
+            "Target": "Data/Objects",
+            "Fields": {
+                "AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing1": {
+                    "Name": "Socializing Ring 1",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing1.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing1.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/SocializingSkill",
+                    "SpriteIndex": 0
+                },
+                "AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing2": {
+                    "Name": "Socializing Ring 2",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing2.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing2.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/SocializingSkill",
+                    "SpriteIndex": 1
+                },
+                "AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing3": {
+                    "Name": "Socializing Ring 3",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing3.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_drbirbdev.SocializingSkillRing3.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/SocializingSkill",
+                    "SpriteIndex": 2
+                }
+            }
+        }
+    ]
+}

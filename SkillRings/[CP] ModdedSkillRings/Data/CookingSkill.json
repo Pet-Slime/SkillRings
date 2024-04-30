@@ -1,0 +1,42 @@
+{
+    "Changes": [
+        {
+            "Action": "Load",
+            "When": {
+                "HasMod |contains=moonslime.CookingSkill": true
+            },
+            "Target": "Mods/moonslime.ModdedSkillRings/CookingSkill",
+            "FromFile": "Assets/CookingSkill.png"
+        },
+        {
+            "Action": "EditData",
+            "When": {
+                "HasMod |contains=moonslime.CookingSkill": true
+            },
+            "Target": "Data/Objects",
+            "Fields": {
+                "AlphaMeece.SkillRings_moonslime.CookingRing1": {
+                    "Name": "Cooking Ring 1",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.CookingRing1.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.CookingRing1.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/CookingSkill",
+                    "SpriteIndex": 0
+                },
+                "AlphaMeece.SkillRings_moonslime.CookingRing2": {
+                    "Name": "Cooking Ring 2",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.CookingRing2.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.CookingRing2.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/CookingSkill",
+                    "SpriteIndex": 1
+                },
+                "AlphaMeece.SkillRings_moonslime.CookingRing3": {
+                    "Name": "Cooking Ring 3",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.CookingRing3.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.CookingRing3.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/CookingSkill",
+                    "SpriteIndex": 2
+                }
+            }
+        }
+    ]
+}

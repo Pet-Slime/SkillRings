@@ -1,0 +1,42 @@
+{
+    "Changes": [
+        {
+            "Action": "Load",
+            "When": {
+                "HasMod |contains=moonslime.SpookySkill": true
+            },
+            "Target": "Mods/moonslime.ModdedSkillRings/SpookySkill",
+            "FromFile": "Assets/SpookySkill.png"
+        },
+        {
+            "Action": "EditData",
+            "When": {
+                "HasMod |contains=moonslime.SpookySkill": true
+            },
+            "Target": "Data/Objects",
+            "Fields": {
+                "AlphaMeece.SkillRings_moonslime.SpookyRing1": {
+                    "Name": "Spooky Ring 1",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.SpookyRing1.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.SpookyRing1.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/SpookySkill",
+                    "SpriteIndex": 0
+                },
+                "AlphaMeece.SkillRings_moonslime.SpookyRing2": {
+                    "Name": "Spooky Ring 2",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.SpookyRing2.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.SpookyRing2.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/SpookySkill",
+                    "SpriteIndex": 1
+                },
+                "AlphaMeece.SkillRings_moonslime.SpookyRing3": {
+                    "Name": "Spooky Ring 3",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_moonslime.SpookyRing3.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_moonslime.SpookyRing3.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/SpookySkill",
+                    "SpriteIndex": 2
+                }
+            }
+        }
+    ]
+}

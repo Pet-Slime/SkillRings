@@ -1,0 +1,42 @@
+{
+    "Changes": [
+        {
+            "Action": "Load",
+            "When": {
+                "HasMod |contains=drbirbdev.BinningSkill": true
+            },
+            "Target": "Mods/moonslime.ModdedSkillRings/BinningSkill",
+            "FromFile": "Assets/BinningSkill.png"
+        },
+        {
+            "Action": "EditData",
+            "When": {
+                "HasMod |contains=drbirbdev.BinningSkill": true
+            },
+            "Target": "Data/Objects",
+            "Fields": {
+                "AlphaMeece.SkillRings_drbirbdev.BinningSkillRing1": {
+                    "Name": "Archaeology Ring 1",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_drbirbdev.BinningSkillRing1.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_drbirbdev.BinningSkillRing1.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/BinningSkill",
+                    "SpriteIndex": 0
+                },
+                "AlphaMeece.SkillRings_drbirbdev.BinningSkillRing2": {
+                    "Name": "Archaeology Ring 2",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_drbirbdev.BinningSkillRing2.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_drbirbdev.BinningSkillRing2.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/BinningSkill",
+                    "SpriteIndex": 1
+                },
+                "AlphaMeece.SkillRings_drbirbdev.BinningSkillRing3": {
+                    "Name": "Archaeology Ring 3",
+                    "DisplayName": "{{i18n:AlphaMeece.SkillRings_drbirbdev.BinningSkillRing3.name}}",
+                    "Description": "{{i18n:AlphaMeece.SkillRings_drbirbdev.BinningSkillRing3.description}}",
+                    "Texture": "Mods/moonslime.ModdedSkillRings/BinningSkill",
+                    "SpriteIndex": 2
+                }
+            }
+        }
+    ]
+}
